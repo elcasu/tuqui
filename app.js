@@ -12,22 +12,32 @@ const game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO, '', {
   preload: function () {
     game.load.spritesheet('robot1', 'img/robot1.png', 84, 54)
     game.load.spritesheet('spider', 'img/spider.png', 72, 72)
-    game.load.image('robot2', 'img/robot2.png')
+    game.load.spritesheet('robot2', 'img/robot2.png', 48, 40)
     game.load.image('robot3', 'img/robot4.png')
     game.load.image('platform', 'img/platform.png')
     game.load.image('star', 'img/star.png')
     game.load.image('cloud1', 'img/cloud.png')
     game.load.image('cloud2', 'img/cloud2.png')
+
+    game.load.json('level:1', 'data/level1.json')
   },
   create: function() {
     game.stage.backgroundColor = 0x3ac0f4
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT
     game.physics.startSystem(Phaser.Physics.ARCADE)
+    loadLevel(this.game.cache.getJSON('level:1'))
 
     // clouds and background stuff
     const clouds = game.add.group()
     let cl1 = clouds.create(800, 100, 'cloud1')
     let cl2 = clouds.create(500, 50, 'cloud2')
+
+    // stars
+    stars = game.add.group()
+    stars.enableBody =true
+    for(let i = 0; i < 10; i++) {
+      const star = stars.create(game.world.width - 50 * i, game.world.height - 250, 'star')
+    }
 
     // player
     player = game.add.sprite(10, 10, 'robot1')
@@ -40,33 +50,23 @@ const game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO, '', {
 
     // enemy 1: Spider
     enemies = game.add.group()
-    const enemy = enemies.create(10, game.world.height - 200, 'spider')
-    game.physics.arcade.enable(enemy)
-    enemy.body.gravity.y = GRAVITY
-    enemy.body.collideWorldBounds = true
-    enemy.animations.add('move', [0, 1, 2], 6, true)
+    const spider = enemies.create(10, game.world.height - 200, 'spider')
+    game.physics.arcade.enable(spider)
+    spider.body.gravity.y = GRAVITY
+    spider.body.collideWorldBounds = true
+    spider.animations.add('move', [0, 1, 2], 6, true)
+
+    // enemy 2: lilShip
+    const lilShip = enemies.create(game.world.width - 50, game.world.height - 250, 'robot2')
+    game.physics.arcade.enable(lilShip)
+    lilShip.body.gravity.y = GRAVITY
+    lilShip.body.collideWorldBounds = true
+    lilShip.animations.add('move', [0, 1, 2, 3, 4, 5, 6, 7], 6, true)
 
     // platforms
-    platforms = game.add.group()
-    platforms.enableBody = true
-    let ground = platforms.create(0, game.world.height - 60, 'platform')
-    ground.scale.setTo(12, 5)
-    ground.body.immovable = true
+    loadLevel(game.cache.getJSON('level:1'))
 
-    let pl = platforms.create(0, 200, 'platform')
-    pl.scale.setTo(2, 2)
-    pl.body.immovable = true
-
-    pl = platforms.create(game.world.width - 512, game.world.height - 200, 'platform')
-    pl.scale.setTo(4, 2)
-    pl.body.immovable = true
-
-    // stars
-    stars = game.add.group()
-    stars.enableBody =true
-    for(let i = 0; i < 10; i++) {
-      const star = stars.create(game.world.width - 50 * i, game.world.height - 250, 'star')
-    }
+    // invisible platforms
 
     // controls
     cursors = game.input.keyboard.createCursorKeys()
@@ -89,12 +89,12 @@ const game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO, '', {
     enemies.forEach(function (e) {
       e.animations.play('move')
       e.body.velocity.x = eDir * 150
-      if (e.body.x + e.body.width >= game.world.width && eDir === 1) {
-        eDir = -1
-      }
-      if (e.body.x <= 0 && eDir === -1) {
-        eDir = 1
-      }
+      // if (e.body.x + e.body.width >= game.world.width && eDir === 1) {
+      //   eDir = -1
+      // }
+      // if (e.body.x <= 0 && eDir === -1) {
+      //   eDir = 1
+      // }
     })
 
     // update player movements
@@ -140,4 +140,19 @@ function goFullScreen() {
     game.scale.pageAlignHorizontally = false
     game.scale.startFullScreen(false)
   }
+}
+
+function loadLevel (data) {
+  platforms = game.add.group()
+  platforms.enableBody = true
+  data.platforms.forEach(function (platform) {
+    console.log(platform)
+    let x = platform.x < 0 ? game.world.width + platform.x : platform.x
+    let y = platform.y < 0 ? game.world.height + platform.y : platform.y
+    let p = platforms.create(x, y, platform.image)
+    if (platform.scale) {
+      p.scale.setTo(platform.scale[0], platform.scale[1])
+    }
+    p.body.immovable = true
+  })
 }
