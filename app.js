@@ -45,6 +45,9 @@ const game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO, '', {
       const star = stars.create(game.world.width - 50 * i, game.world.height - 250, 'star')
     }
 
+    // TODO: Ver para la camara! :-)
+    // game.camera.follow(player);
+
     // level key
     key = game.add.sprite(10, game.world.height - 270, 'key')
     game.physics.arcade.enable(key)
