@@ -24,7 +24,8 @@ PlayState.update = function () {
 
 PlayState._handleCollisions = function () {
   this.game.physics.arcade.collide(this.player, this.platforms)
-  this.game.physics.arcade.collide(this.spiders, this.platforms)
+  this.game.physics.arcade.collide(this.enemies, this.platforms)
+  this.game.physics.arcade.collide(this.enemies, this.enemyWalls)
 
   // check overlapings
   this.game.physics.arcade.overlap(this.player, this.stars, function(p, s) {
@@ -35,7 +36,7 @@ PlayState._handleCollisions = function () {
     k.kill()
   }, null, this)
 
-  this.game.physics.arcade.overlap(this.player, this.spiders, function(p, s) {
+  this.game.physics.arcade.overlap(this.player, this.enemies.children, function(p, e) {
     p.die()
   }, null, this)
 }
@@ -68,6 +69,7 @@ PlayState._loadLevel = function (data) {
   enemyWalls = this.game.add.group()
   enemyWalls.enableBody = true
   enemyWalls.visible = false
+  this.enemyWalls = enemyWalls
   const platforms = this.game.add.group()
   platforms.enableBody = true
   data.platforms.forEach(function (platform) {
@@ -120,8 +122,9 @@ PlayState._loadLevel = function (data) {
   // TODO: load from json!
   this.enemies = this.game.add.group()
   this.spiders = this.game.add.group()
-  this.enemies.add(this.spiders)
   this.spiders.add(new Spider(this.game, 100, HEIGHT - 300))
+  this.enemies.add(this.spiders)
+  this.enemies.enableBody = true
 
   // enable gravity
   this.game.physics.arcade.gravity.y = GRAVITY
