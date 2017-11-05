@@ -118,13 +118,19 @@ PlayState._loadLevel = function (data) {
   this.player = new Player(this.game, 10, HEIGHT - 150)
   this.game.add.existing(this.player)
 
-  // Load enemies
+  // ------------ Load enemies ------------
   // TODO: load from json!
   this.enemies = this.game.add.group()
+
+  // Spiders
   this.spiders = this.game.add.group()
   this.spiders.add(new Spider(this.game, 100, HEIGHT - 300))
   this.enemies.add(this.spiders)
-  this.enemies.enableBody = true
+
+  // Lil ships
+  this.lilShips = this.game.add.group()
+  this.lilShips.add(new LilShip(this.game, WIDTH - 50, HEIGHT - 250))
+  this.enemies.add(this.lilShips)
 
   // enable gravity
   this.game.physics.arcade.gravity.y = GRAVITY
