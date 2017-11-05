@@ -127,6 +127,11 @@ PlayState._loadLevel = function (data) {
   this.spiders.add(new Spider(this.game, 100, HEIGHT - 300))
   this.enemies.add(this.spiders)
 
+  // Spiders 2
+  this.spiders2 = this.game.add.group()
+  this.spiders2.add(new Spider2(this.game, 100, HEIGHT - 100))
+  this.enemies.add(this.spiders2)
+
   // Lil ships
   this.lilShips = this.game.add.group()
   this.lilShips.add(new LilShip(this.game, WIDTH - 50, HEIGHT - 250))

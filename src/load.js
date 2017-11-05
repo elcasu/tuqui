@@ -3,6 +3,7 @@ const LoadingState = {}
 LoadingState.preload = function () {
   this.game.load.spritesheet('player', 'img/robot1.png', 84, 54)
   this.game.load.spritesheet('spider', 'img/spider.png', 72, 72)
+  this.game.load.spritesheet('spider2', 'img/spider2.png', 78, 30)
   this.game.load.spritesheet('lilShip', 'img/robot2.png', 48, 40)
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')
   this.game.load.image('robot3', 'img/robot4.png')
