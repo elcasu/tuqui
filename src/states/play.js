@@ -137,6 +137,16 @@ PlayState._loadLevel = function (data) {
   this.lilShips.add(new LilShip(this.game, WIDTH - 50, HEIGHT - 250))
   this.enemies.add(this.lilShips)
 
+  // Yoyo
+  this.yoyo = this.game.add.group()
+  this.yoyo.add(new Yoyo(this.game, WIDTH - 50, HEIGHT - 200))
+  this.enemies.add(this.yoyo)
+
+  // Grunion
+  this.grunion = this.game.add.group()
+  this.grunion.add(new Grunion(this.game, WIDTH - 50, 100))
+  this.enemies.add(this.grunion)
+
   // enable gravity
   this.game.physics.arcade.gravity.y = GRAVITY
 }
