@@ -11,16 +11,17 @@ ConstructLevelState.create = function () {
   this._makeClonable(spider2)
   const lilShip = new LilShip(this.game, 25, 150, true)
   this._makeClonable(lilShip)
-  // const platform = new Platform(this.game, 25, 200, true)
-  // this._makeClonable(platform)
+  const platform = new Platform(this.game, 25, 220)
+  this._makeClonable(platform)
+
   this.navbar = this.game.add.group()
   this.navbar.add(spider)
   this.navbar.add(spider2)
   this.navbar.add(lilShip)
-  //this.navbar.add(plarform)
+  this.navbar.add(platform)
 
   // add divisor
-  this.line = new Phaser.Line(100, 0, 100, HEIGHT);
+  this.line = new Phaser.Line(170, 0, 170, HEIGHT);
 }
 
 ConstructLevelState.render = function () {

@@ -72,21 +72,19 @@ PlayState._loadLevel = function (data) {
   this.enemyWalls = enemyWalls
   const platforms = this.game.add.group()
   platforms.enableBody = true
+  const game = this.game
+
+  data.enemyWalls.forEach(function (wall) {
+    let x = wall.x < 0 ? WIDTH + wall.x : wall.x
+    let y = wall.y < 0 ? HEIGHT + wall.y : wall.y
+    enemyWalls.add(new EnemyWall(game, x, y))
+  })
+
   data.platforms.forEach(function (platform) {
     let x = platform.x < 0 ? WIDTH + platform.x : platform.x
     let y = platform.y < 0 ? HEIGHT + platform.y : platform.y
     let p
-    if (platform.image === 'invisibleWall') {
-      p = enemyWalls.create(x, y, platform.image)
-    }
-    else {
-      p = platforms.create(x, y, platform.image)
-    }
-    if (platform.scale) {
-      p.scale.setTo(platform.scale[0], platform.scale[1])
-    }
-    p.body.immovable = true
-    p.body.allowGravity = false
+    platforms.add(new Platform(game, x, y, platform))
   })
   this.platforms = platforms
 

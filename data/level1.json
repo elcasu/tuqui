@@ -3,7 +3,9 @@
     { "image": "platform", "x": 0, "y": -60, "scale": [12, 5] },
     { "image": "platform", "x": 0, "y": -200, "scale": [4, 2] },
     { "image": "platform", "x": -512, "y": -200, "scale": [4, 2] },
-    { "image": "platform", "x": -512, "y": 300, "scale": [4, 2] },
+    { "image": "platform", "x": -512, "y": 300, "scale": [4, 2] }
+  ],
+  "enemyWalls": [
     { "image": "invisibleWall", "x": -540, "y": 230, "scale": [1, 1] },
     { "image": "invisibleWall", "x": -540, "y": -250, "scale": [1, 1] },
     { "image": "invisibleWall", "x": 510, "y": -250, "scale": [1, 1] }
