@@ -18,6 +18,8 @@ LoadingState.preload = function () {
   this.game.load.image('cloud1', 'img/cloud.png')
   this.game.load.image('cloud2', 'img/cloud2.png')
   this.game.load.image('key', 'img/key.png')
+  this.game.load.image('bucket', 'img/bucket.png')
+  this.game.load.image('background', 'img/background-sunny.png')
 
   this.game.load.json('level:1', 'data/level1.json')
 }
