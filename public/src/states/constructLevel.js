@@ -48,6 +48,7 @@ ConstructLevelState._makeDraggable = function (sprite) {
 }
 
 ConstructLevelState._makeClonable = function (sprite) {
+  sprite.dragFromNavbar = true
   sprite.inputEnabled = true
   sprite.input.enableDrag()
   sprite.events.onDragStart.add(this._cloneAndDrag, this)
@@ -68,8 +69,12 @@ ConstructLevelState._stopDrag = function (sprite, pointer) {
   this.navbar.remove(sprite)
   this.elements.add(sprite)
   this._makeDraggable(sprite)
-  sprite.x += this.game.camera.x
-  sprite.y += this.game.camera.y
+  console.log('DRAGFROM....', sprite.dragFromNavbar)
+  if (sprite.dragFromNavbar) {
+    sprite.x += this.game.camera.x
+    sprite.y += this.game.camera.y
+    sprite.dragFromNavbar = false
+  }
 }
 
 ConstructLevelState._pointerIntersects = function (pointer, sprite) {
@@ -100,7 +105,11 @@ ConstructLevelState._loadNavbar = function () {
   const bucket = this.game.add.sprite(WIDTH - 100, 20, 'bucket')
   bucket.game.physics.arcade.enable(bucket)
   bucket.body.allowGravity = false
-  this.bucket = bucket
+
+  // save button
+  const saveButton = this.game.add.sprite(WIDTH - 150, 30, 'editor-save')
+  saveButton.game.physics.arcade.enable(saveButton)
+  saveButton.body.allowGravity = false
 
   // add items to the navbar
   this.navbar = this.game.add.group()
@@ -110,6 +119,7 @@ ConstructLevelState._loadNavbar = function () {
   this.navbar.add(lilShip)
   this.navbar.add(platform)
   this.navbar.add(bucket)
+  this.navbar.add(saveButton)
 
   this.navbar.fixedToCamera = true
 }
