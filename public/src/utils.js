@@ -1,8 +1,11 @@
 const levelElements = (function () {
   const _elements = [
+    { key: 'player', className: 'Player' },
     { key: 'spider', className: 'Spider' },
     { key: 'spider2', className: 'Spider2' },
     { key: 'lilShip', className: 'LilShip' },
+    { key: 'grunion', className: 'Grunion' },
+    { key: 'invisibleWall', className: 'EnemyWall' },
     { key: 'platform', className: 'Platform' },
   ]
 

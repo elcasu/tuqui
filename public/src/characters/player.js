@@ -1,16 +1,18 @@
 function Player (game, x, y) {
   Phaser.Sprite.call(this, game, x, y, 'player')
-  this.alive = true
-  this.game.physics.arcade.enable(this)
-  // this.body.bounce.y = 0.2
-  this.body.gravity.y = 300
-  this.body.collideWorldBounds = true
-  this.animations.add('stop', [0])
-  this.animations.add('jump', [0]) // TODO: make jump animation
-  this.animations.add('fall', [0]) // TODO: make fall animation
-  // this.animations.add('left', [0, 1, 2, 3], 6, true)
-  this.animations.add('run', [0, 1, 2, 3], 6, true)
-  this.animations.add('die', [4, 5, 6, 7, 8], 10, false)
+  if (!game.editing) {
+    this.alive = true
+    this.game.physics.arcade.enable(this)
+    // this.body.bounce.y = 0.2
+    this.body.gravity.y = 300
+    this.body.collideWorldBounds = true
+    this.animations.add('stop', [0])
+    this.animations.add('jump', [0]) // TODO: make jump animation
+    this.animations.add('fall', [0]) // TODO: make fall animation
+    // this.animations.add('left', [0, 1, 2, 3], 6, true)
+    this.animations.add('run', [0, 1, 2, 3], 6, true)
+    this.animations.add('die', [4, 5, 6, 7, 8], 10, false)
+  }
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype)
@@ -65,6 +67,9 @@ Player.prototype.die = function () {
 }
 
 Player.prototype.update = function () {
+  if (this.game.editing) {
+    return
+  }
   const animationName = this._getAnimationName()
   if (this.animations.name !== animationName) {
     this.animations.play(animationName)

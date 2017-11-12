@@ -4,6 +4,7 @@ const ConstructLevelState = {}
 
 ConstructLevelState.init = function (data) {
   this.game.stage.backgroundColor = 0x5555ff
+  this.game.editing = true
 }
 
 ConstructLevelState.create = function () {
