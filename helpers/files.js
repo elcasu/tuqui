@@ -11,5 +11,16 @@ module.exports = {
         return resolve()
       })
     })
+  },
+
+  async load (path) {
+    return new Promise((resolve, reject) => {
+      fs.readFile(path, (err, data) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(data)
+      })
+    })
   }
 }

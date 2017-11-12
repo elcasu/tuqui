@@ -21,6 +21,12 @@ LoadingState.preload = function () {
   this.game.load.image('bucket', 'img/bucket.png')
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background-sunny.png')
+  this.game.load.bitmapFont(
+    'carrier_command',
+    '../../fonts/carrier_command.png',
+    '../../fonts/carrier_command.xml'
+  )
+
 
   this.game.load.json('level:1', 'data/level1.json')
 }

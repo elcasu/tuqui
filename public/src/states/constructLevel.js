@@ -12,6 +12,7 @@ ConstructLevelState.create = function () {
   this.background.create(0, 0, 'background')
   this.elements = this.game.add.group()
   this._loadNavbar()
+  this._loadMap('level1')
 }
 
 ConstructLevelState.update = function () {
@@ -47,19 +48,14 @@ ConstructLevelState._makeDraggable = function (sprite) {
   sprite.input.enableDrag()
 }
 
-ConstructLevelState._makeClonable = function (sprite) {
-  sprite.dragFromNavbar = true
-  sprite.inputEnabled = true
-  sprite.input.enableDrag()
-  sprite.events.onDragStart.add(this._cloneAndDrag, this)
-  sprite.events.onDragStop.add(this._stopDrag, this)
-}
-
 ConstructLevelState._cloneAndDrag = function (sprite, pointer) {
   const x = sprite.position.x
   const y = sprite.position.y
   const clone = new sprite.constructor(this.game, x, y, true)
-  this._makeClonable(clone)
+  levelElements.makeClonable(clone, {
+    onCloneAndDrag: this._cloneAndDrag,
+    onStopDrag: this._stopDrag
+  }, this)
   this.navbar.add(clone)
   sprite.fixedToCamera = false
 }
@@ -69,7 +65,6 @@ ConstructLevelState._stopDrag = function (sprite, pointer) {
   this.navbar.remove(sprite)
   this.elements.add(sprite)
   this._makeDraggable(sprite)
-  console.log('DRAGFROM....', sprite.dragFromNavbar)
   if (sprite.dragFromNavbar) {
     sprite.x += this.game.camera.x
     sprite.y += this.game.camera.y
@@ -90,16 +85,28 @@ ConstructLevelState._loadNavbar = function () {
   navBackground.drawRect(0, 0, WIDTH, 100)
   navBackground.endFill()
 
+  // add items to the navbar
+  this.navbar = this.game.add.group()
+  this.navbar.add(navBackground)
+
   // elements
-  // TODO: make this dynamic
-  const spider = new Spider(this.game, 10, 10, true)
-  this._makeClonable(spider)
-  const spider2 = new Spider2(this.game, 100, 25, true)
-  this._makeClonable(spider2)
-  const lilShip = new LilShip(this.game, 200, 25, true)
-  this._makeClonable(lilShip)
-  const platform = new Platform(this.game, 270, 25)
-  this._makeClonable(platform)
+  let x = 10
+  let y = 15
+  levelElements.getAll().forEach(function (element) {
+    const instance = levelElements.createInstance(
+      this.game,
+      element,
+      {
+        position: { x: x, y: y },
+        isClonable: true,
+        onCloneAndDrag: this._cloneAndDrag,
+        onStopDrag: this._stopDrag
+      },
+      this
+    )
+    this.navbar.add(instance)
+    x += 100
+  }, this)
 
   // thrash bucket
   const bucket = this.game.add.sprite(WIDTH - 100, 20, 'bucket')
@@ -110,16 +117,50 @@ ConstructLevelState._loadNavbar = function () {
   const saveButton = this.game.add.sprite(WIDTH - 150, 30, 'editor-save')
   saveButton.game.physics.arcade.enable(saveButton)
   saveButton.body.allowGravity = false
+  saveButton.inputEnabled = true
+  saveButton.events.onInputDown.add(function () {
+    this._saveMap()
+  }, this)
 
-  // add items to the navbar
-  this.navbar = this.game.add.group()
-  this.navbar.add(navBackground)
-  this.navbar.add(spider)
-  this.navbar.add(spider2)
-  this.navbar.add(lilShip)
-  this.navbar.add(platform)
   this.navbar.add(bucket)
   this.navbar.add(saveButton)
 
   this.navbar.fixedToCamera = true
+}
+
+ConstructLevelState._saveMap = function () {
+  const payload = []
+  this.elements.children.forEach(function (element) {
+    payload.push({
+      position: element.position,
+      key: element.key,
+      scale: element.scale,
+      visible: true
+    })
+  })
+
+  // request the server to save generated JSON
+  const savingText = this.game.add.bitmapText(10, 100, 'carrier_command', 'Guardando...')
+  api.saveMap('level1', payload).then(function (res) {
+    savingText.kill()
+  })
+}
+
+ConstructLevelState._loadMap = function (name) {
+  const thisRef = this
+  api.getMap(name).then(function (map) {
+    map.forEach(function (item) {
+      const instance = levelElements.createInstance(
+        thisRef.game,
+        levelElements.get(item.key),
+        {
+          position: item.position,
+          isClonable: false,
+          onStopDrag: thisRef._stopDrag
+        },
+        thisRef
+      )
+      thisRef.elements.add(instance)
+    })
+  })
 }
