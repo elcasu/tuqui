@@ -16,7 +16,7 @@ module.exports = class MapController {
     if (!req.body.name) {
       throw generateError(400, 'map name is required')
     }
-    const name = req.name.toLowerCase()
+    const name = req.body.name.toLowerCase()
     await save(`../maps/${name}.json`, req.map)
     res.status(200).send(req.map)
   }
