@@ -160,6 +160,7 @@ ConstructLevelState._loadMap = function (name) {
         },
         thisRef
       )
+      thisRef._makeDraggable(instance)
       thisRef.elements.add(instance)
     })
   })
