@@ -1,9 +1,11 @@
-const WIDTH = window.outerWidth
-const HEIGHT = window.innerHeight
+const WIDTH = 2000
+const HEIGHT = 2000
+const WINDOW_WIDTH = window.outerWidth
+const WINDOW_HEIGHT = window.innerHeight
 const GRAVITY = 200
 
 window.onload = function () {
-  let game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO, '')
+  let game = new Phaser.Game(WINDOW_WIDTH, WINDOW_HEIGHT, Phaser.AUTO, '')
   game.state.add('play', PlayState)
   game.state.add('load', LoadingState)
   game.state.start('load')

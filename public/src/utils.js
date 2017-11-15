@@ -1,27 +1,40 @@
-const levelElements = (function () {
+const levelHandler = (function () {
+  const _groups = {}
   const _elements = [
     { key: 'player', className: 'Player' },
-    { key: 'spider', className: 'Spider' },
-    { key: 'spider2', className: 'Spider2' },
-    { key: 'lilShip', className: 'LilShip' },
-    { key: 'grunion', className: 'Grunion' },
-    { key: 'invisibleWall', className: 'EnemyWall' },
-    { key: 'platform', className: 'Platform' },
+    { key: 'spider', className: 'Spider', group: 'enemies' },
+    { key: 'spider2', className: 'Spider2', group: 'enemies' },
+    { key: 'lilShip', className: 'LilShip', group: 'enemies' },
+    { key: 'grunion', className: 'Grunion', group: 'enemies' },
+    { key: 'invisibleWall', className: 'EnemyWall', group: 'enemyWalls', visible: false },
+    { key: 'platform', className: 'Platform', group: 'platforms' },
   ]
 
-
   return {
+    // get a list of all elements
     getAll: function () {
       return _elements
     },
+
+    // get single element
     get: function (key) {
       const f = _elements.filter(function (e) { return e.key === key })
       return f[0]
     },
+
+    // get registered groups
+    getGroups: function () {
+      return _groups
+    },
+
+    // get a group
+    getGroup: function (key) {
+      return _groups[key]
+    },
+
+    // create and set corresponding instance of specified element
     createInstance: function (game, element, opts, thisRef) {
       opts = opts || {}
-      // TODO: this should be gone ASAP xD
-      opts.editable = true
       const instance = new window[element.className](
         game,
         opts.position.x,
@@ -31,8 +44,21 @@ const levelElements = (function () {
       if (opts.isClonable) {
         this.makeClonable(instance, opts, thisRef)
       }
+
+      if (element.group) {
+        if (!_groups[element.group]) {
+          _groups[element.group] = game.add.group()
+        }
+        _groups[element.group].add(instance)
+      }
+      else {
+        element.instance = instance
+        game.add.existing(instance)
+      }
       return instance
     },
+
+    // make a sprite "clonable" (mainly for map editor)
     makeClonable: function (sprite, opts, thisRef) {
       sprite.dragFromNavbar = true
       sprite.inputEnabled = true

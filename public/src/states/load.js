@@ -26,9 +26,7 @@ LoadingState.preload = function () {
     '../../fonts/carrier_command.png',
     '../../fonts/carrier_command.xml'
   )
-
-
-  this.game.load.json('level:1', 'data/level1.json')
+  this.game.load.json('level1', 'http://localhost:8008/api/maps/level1')
 }
 
 LoadingState.create = function () {

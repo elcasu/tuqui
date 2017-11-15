@@ -3,6 +3,9 @@ function EnemyWall (game, x, y, data) {
   this.game.physics.enable(this)
   this.body.immovable = true
   this.body.allowGravity = false
+  if (!game.editing) {
+    this.alpha = 0
+  }
 }
 
 EnemyWall.prototype = Object.create(Phaser.Sprite.prototype)

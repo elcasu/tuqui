@@ -53,7 +53,7 @@ ConstructLevelState._cloneAndDrag = function (sprite, pointer) {
   const x = sprite.position.x
   const y = sprite.position.y
   const clone = new sprite.constructor(this.game, x, y, true)
-  levelElements.makeClonable(clone, {
+  levelHandler.makeClonable(clone, {
     onCloneAndDrag: this._cloneAndDrag,
     onStopDrag: this._stopDrag
   }, this)
@@ -83,7 +83,7 @@ ConstructLevelState._loadNavbar = function () {
   const navBackground = this.game.add.graphics(0, 0)
   navBackground.beginFill(0)
   navBackground.alpha = 0.5
-  navBackground.drawRect(0, 0, WIDTH, 100)
+  navBackground.drawRect(0, 0, WIDTH, 170)
   navBackground.endFill()
 
   // add items to the navbar
@@ -93,8 +93,8 @@ ConstructLevelState._loadNavbar = function () {
   // elements
   let x = 10
   let y = 15
-  levelElements.getAll().forEach(function (element) {
-    const instance = levelElements.createInstance(
+  levelHandler.getAll().forEach(function (element) {
+    const instance = levelHandler.createInstance(
       this.game,
       element,
       {
@@ -106,7 +106,7 @@ ConstructLevelState._loadNavbar = function () {
       this
     )
     this.navbar.add(instance)
-    x += 100
+    x += instance.width + 20
   }, this)
 
   // thrash bucket
@@ -151,9 +151,9 @@ ConstructLevelState._loadMap = function (name) {
   const thisRef = this
   api.getMap(name).then(function (map) {
     map.forEach(function (item) {
-      const instance = levelElements.createInstance(
+      const instance = levelHandler.createInstance(
         thisRef.game,
-        levelElements.get(item.key),
+        levelHandler.get(item.key),
         {
           position: item.position,
           isClonable: false,
