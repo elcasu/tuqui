@@ -1,7 +1,7 @@
 const WIDTH = 2000
 const HEIGHT = 2000
-const WINDOW_WIDTH = window.innerWidth * window.devicePixelRatio / 2
-const WINDOW_HEIGHT = window.innerHeight * window.devicePixelRatio / 2
+const WINDOW_WIDTH = window.outerWidth
+const WINDOW_HEIGHT = window.innerHeight
 const GRAVITY = 200
 
 window.onload = function () {

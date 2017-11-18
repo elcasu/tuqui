@@ -1,5 +1,5 @@
 const levelHandler = (function () {
-  const _groups = {}
+  let _groups = {}
   const _elements = [
     { key: 'player', className: 'Player' },
     { key: 'spider', className: 'Spider', group: 'enemies' },
@@ -65,6 +65,12 @@ const levelHandler = (function () {
       sprite.input.enableDrag()
       sprite.events.onDragStart.add(opts.onCloneAndDrag, thisRef)
       sprite.events.onDragStop.add(opts.onStopDrag, thisRef)
+    },
+
+    // restart level
+    restart: function (game) {
+      _groups = {}
+      game.state.restart()
     }
   }
 })()

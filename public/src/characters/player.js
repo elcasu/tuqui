@@ -61,7 +61,7 @@ Player.prototype.die = function (cb) {
   this.animations.play('die').onComplete.addOnce(function () {
     this.kill()
     this.game.time.events.add(Phaser.Timer.SECOND * 1, function () {
-      cb(this)
+      levelHandler.restart(this.game)
     }, this)
   }, this)
 }

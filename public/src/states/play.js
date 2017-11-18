@@ -14,16 +14,19 @@ PlayState.init = function (data) {
 }
 
 PlayState.create = function () {
+  const thisRef = this
   this.game.world.setBounds(0, 0, WIDTH, HEIGHT)
   this.background = this.add.tileSprite(0, 0, WIDTH, HEIGHT, 'background')
   this.background.fixedToCamera = true
   this._loadMap(this.game.cache.getJSON('level1'))
   this.player = levelHandler.get('player').instance
   this.game.camera.follow(this.player, null, 0.1, 0.1)
+  this.game.input.onTap.add(function (e) {
+  })
 }
 
 PlayState.update = function () {
-  this.game.debug.text(`level1: ${levelHandler.getAll()[0].instance}`, WINDOW_WIDTH - 600, 100)
+  this.game.debug.text(`Device ratio: ${window.devicePixelRatio}`, 100, 100)
   this._handleCollisions()
   this._handleInput()
 }
@@ -46,9 +49,7 @@ PlayState._handleCollisions = function () {
     levelHandler.get('player').instance,
     levelHandler.getGroup('enemies'),
     function(p, e) {
-      p.die(function (thisRef) {
-        thisRef.game.state.restart()
-      })
+      p.die()
     }, null, this)
   // check overlapings
   // this.game.physics.arcade.overlap(this.player, this.stars, function(p, s) {
@@ -60,16 +61,28 @@ PlayState._handleCollisions = function () {
   // }, null, this)
 }
 
+PlayState._isTappingLeft = function () {
+  const LEFT = 0
+  const isLeft = Math.floor(this.game.input.x / (WINDOW_WIDTH / 2)) === LEFT
+  return this.game.input.pointer1.isDown && isLeft
+}
+
+PlayState._isTappingRight = function () {
+  const RIGHT = 1
+  const isRight = Math.floor(this.game.input.x / (WINDOW_WIDTH / 2)) === RIGHT
+  return this.game.input.pointer1.isDown && isRight
+}
+
 PlayState._handleInput = function () {
   const player = levelHandler.get('player').instance
-  if (this.keys.left.isDown) {
-    player.move(-1);
+  if (this.keys.left.isDown || this._isTappingLeft()) {
+    player.move(-1)
   }
-  else if (this.keys.right.isDown) {
-    player.move(1);
+  else if (this.keys.right.isDown || this._isTappingRight()) {
+    player.move(1)
   }
   else {
-    player.move(0);
+    player.move(0)
   }
 
   // handle jump
@@ -78,7 +91,7 @@ PlayState._handleInput = function () {
     let didJump = player.jump()
   }
   else {
-    player.stopJumpBoost();
+    player.stopJumpBoost()
   }
 }
 
