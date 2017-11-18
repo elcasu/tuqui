@@ -12,6 +12,7 @@ function Player (game, x, y) {
     // this.animations.add('left', [0, 1, 2, 3], 6, true)
     this.animations.add('run', [0, 1, 2, 3], 6, true)
     this.animations.add('die', [4, 5, 6, 7, 8], 10, false)
+    this.anchor.setTo(.5,.5)
   }
 }
 
@@ -20,6 +21,7 @@ Player.prototype.constructor = Player
 
 Player.prototype.move = function (direction) {
   const SPEED = 200
+  this.scale.x = direction || 1
   this.body.velocity.x = direction * SPEED
 }
 
@@ -67,9 +69,7 @@ Player.prototype.die = function (cb) {
 }
 
 Player.prototype.update = function () {
-  if (this.game.editing) {
-    return
-  }
+  if (this.game.editing) return
   const animationName = this._getAnimationName()
   if (this.animations.name !== animationName) {
     this.animations.play(animationName)

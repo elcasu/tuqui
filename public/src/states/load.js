@@ -5,7 +5,7 @@ LoadingState.init = function (nextState) {
 }
 
 LoadingState.preload = function () {
-  this.game.load.spritesheet('player', 'img/robot1.png', 84, 54)
+  this.game.load.spritesheet('player', 'img/player.png', 84, 54)
   this.game.load.spritesheet('spider', 'img/spider.png', 72, 72)
   this.game.load.spritesheet('spider2', 'img/spider2.png', 78, 30)
   this.game.load.spritesheet('lilShip', 'img/robot2.png', 48, 40)
