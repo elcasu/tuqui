@@ -13,6 +13,7 @@ function Player (game, x, y) {
     this.animations.add('run', [0, 1, 2, 3], 6, true)
     this.animations.add('die', [4, 5, 6, 7, 8], 10, false)
     this.anchor.setTo(.5,.5)
+    this._currentDirection = 1
   }
 }
 
@@ -21,7 +22,10 @@ Player.prototype.constructor = Player
 
 Player.prototype.move = function (direction) {
   const SPEED = 200
-  this.scale.x = direction || 1
+  this.scale.x = direction || this._currentDirection
+  if (direction) {
+    this._currentDirection = direction
+  }
   this.body.velocity.x = direction * SPEED
 }
 
