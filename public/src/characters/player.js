@@ -60,13 +60,13 @@ Player.prototype._getAnimationName = function () {
   return name
 }
 
-Player.prototype.die = function (cb) {
+Player.prototype.die = function (cb, thisRef) {
   this.alive = false
   this.body.enable = false
   this.animations.play('die').onComplete.addOnce(function () {
     this.kill()
     this.game.time.events.add(Phaser.Timer.SECOND * 1, function () {
-      levelHandler.restart(this.game)
+      cb.call(thisRef)
     }, this)
   }, this)
 }

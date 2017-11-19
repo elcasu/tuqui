@@ -8,7 +8,9 @@ PlayState.init = function (data) {
   })
   this.starsCount = 0
   this.hasKey = false
-  this.level = data && data.level || 1
+  this.currentLevel = data && data.level || 1
+  this.lives = data && data.lives || 3
+  this.coins = data && data.coins || 0
   this.camera.x = 0
   this.camera.y = 0
 }
@@ -21,12 +23,11 @@ PlayState.create = function () {
   this._loadMap(this.game.cache.getJSON('level1'))
   this.player = levelHandler.get('player').instance
   this.game.camera.follow(this.player, null, 0.1, 0.1)
-  this.game.input.onTap.add(function (e) {
-  })
+  levelHandler.createStatusBar(this)
 }
 
 PlayState.update = function () {
-  this.game.debug.text(`Device ratio: ${window.devicePixelRatio}`, 100, 100)
+  // this.game.debug.text(`Device ratio: ${window.devicePixelRatio}`, 100, 100)
   this._handleCollisions()
   this._handleInput()
 }
@@ -49,20 +50,22 @@ PlayState._handleCollisions = function () {
     levelHandler.get('player').instance,
     levelHandler.getGroup('enemies'),
     function(p, e) {
-      p.die()
+      p.die(function () {
+        // actions after player dies
+        this.lives--
+        if (this.lives === 0) {
+          levelHandler.gameOver(this)
+        }
+        else {
+          levelHandler.restart(this)
+        }
+      }, this)
     }, null, this)
+
   // check overlapings
   this.game.physics.arcade.overlap(this.player, levelHandler.getGroup('items'), function(p, s) {
     s.kill()
   }, null, this)
-  
-  // this.game.physics.arcade.overlap(this.player, this.stars, function(p, s) {
-  //   s.kill()
-  // }, null, this)
-
-  // this.game.physics.arcade.overlap(this.player, this.key, function(p, k) {
-  //   k.kill()
-  // }, null, this)
 }
 
 PlayState._isTappingLeft = function () {
@@ -102,14 +105,16 @@ PlayState._handleInput = function () {
 PlayState._loadMap = function (map) {
   map.forEach(function (item) {
     levelHandler.createInstance(
-      this.game,
       levelHandler.get(item.key),
       {
         position: item.position,
         isClonable: false,
         onStopDrag: this._stopDrag
-      },
-    )
+      }, this)
   },this)
   this.game.physics.arcade.gravity.y = GRAVITY
+}
+
+PlayState._displayStatus = function () {
+
 }

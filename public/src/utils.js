@@ -12,6 +12,76 @@ const levelHandler = (function () {
     { key: 'platform', className: 'Platform', group: 'platforms' },
   ]
 
+  function _get (key) {
+    const f = _elements.filter(function (e) { return e.key === key })
+    return f[0]
+  }
+
+  function _createInstance (element, opts) {
+    opts = opts || {}
+    const instance = new window[element.className](
+      this.game,
+      opts.position.x,
+      opts.position.y
+    )
+    if (opts.isClonable) {
+      this.makeClonable(instance, opts, thisRef)
+    }
+
+    if (element.group) {
+      if (!_groups[element.group]) {
+        _groups[element.group] = this.game.add.group()
+      }
+      _groups[element.group].add(instance)
+    }
+    else {
+      element.instance = instance
+      this.game.add.existing(instance)
+    }
+    return instance
+  }
+
+  function _restart () {
+    _groups = {}
+    this.game.state.restart(true, false, {
+      level: this.currentLevel,
+      lives: this.lives,
+      coins: this.coins
+    })
+  }
+
+  function _gameOver() {
+    const gameOverText = this.game.add.bitmapText(0, 0, 'carrier_command', 'GAME OVER')
+    const x = (WINDOW_WIDTH - gameOverText.width) / 2
+    const y = (WINDOW_HEIGHT - gameOverText.height) / 2
+    gameOverText.position.x = x
+    gameOverText.position.y = y
+    gameOverText.fixedToCamera = true
+  }
+
+  function _createStatusBar () {
+    const heart = _createInstance.call(
+      this,
+      _get('heart'),
+      {
+        position: {
+          x: 10,
+          y: 10
+        }
+      }
+    )
+    const livesText = this.game.add.bitmapText(
+      heart.position.x + heart.width + 10,
+      heart.position.y,
+      'carrier_command',
+      this.lives
+    )
+    this.statusBar = this.game.add.group()
+    this.statusBar.add(heart)
+    this.statusBar.add(livesText)
+    this.statusBar.fixedToCamera = true
+  }
+
   return {
     // get a list of all elements
     getAll: function () {
@@ -20,8 +90,7 @@ const levelHandler = (function () {
 
     // get single element
     get: function (key) {
-      const f = _elements.filter(function (e) { return e.key === key })
-      return f[0]
+      return _get(key)
     },
 
     // get registered groups
@@ -35,28 +104,8 @@ const levelHandler = (function () {
     },
 
     // create and set corresponding instance of specified element
-    createInstance: function (game, element, opts, thisRef) {
-      opts = opts || {}
-      const instance = new window[element.className](
-        game,
-        opts.position.x,
-        opts.position.y
-      )
-      if (opts.isClonable) {
-        this.makeClonable(instance, opts, thisRef)
-      }
-
-      if (element.group) {
-        if (!_groups[element.group]) {
-          _groups[element.group] = game.add.group()
-        }
-        _groups[element.group].add(instance)
-      }
-      else {
-        element.instance = instance
-        game.add.existing(instance)
-      }
-      return instance
+    createInstance: function (element, opts, thisRef) {
+      return _createInstance.call(thisRef, element, opts)
     },
 
     // make a sprite "clonable" (mainly for map editor)
@@ -68,10 +117,18 @@ const levelHandler = (function () {
       sprite.events.onDragStop.add(opts.onStopDrag, thisRef)
     },
 
+    createStatusBar: function (thisRef) {
+      _createStatusBar.call(thisRef)
+    },
+
     // restart level
-    restart: function (game) {
-      _groups = {}
-      game.state.restart()
+    restart: function (thisRef) {
+      _restart.call(thisRef)
+    },
+
+    // game over! :-(
+    gameOver: function (thisRef) {
+      _gameOver.call(thisRef)
     }
   }
 })()

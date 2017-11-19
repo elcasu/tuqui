@@ -32,5 +32,9 @@ LoadingState.preload = function () {
 }
 
 LoadingState.create = function () {
-  this.game.state.start(this.nextState, true, false, { level: 1 })
+  this.game.state.start(this.nextState, true, false, {
+    level: 1,
+    lives: 3,
+    coins: 0
+  })
 }

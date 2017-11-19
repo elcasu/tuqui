@@ -142,6 +142,7 @@ ConstructLevelState._saveMap = function () {
 
   // request the server to save generated JSON
   const savingText = this.game.add.bitmapText(10, 100, 'carrier_command', 'Guardando...')
+  savingText.fixedToCamera = true
   api.saveMap('level1', payload).then(function (res) {
     savingText.kill()
   })
