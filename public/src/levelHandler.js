@@ -9,7 +9,7 @@ const levelHandler = (function () {
     { key: 'lilShip', className: 'LilShip', group: 'enemies' },
     { key: 'grunion', className: 'Grunion', group: 'enemies' },
     { key: 'invisibleWall', className: 'EnemyWall', group: 'enemyWalls', visible: false },
-    { key: 'platform', className: 'Platform', group: 'platforms' },
+    { key: 'platform', className: 'Platform', group: 'platforms' }
   ]
 
   function _get (key) {
@@ -25,7 +25,7 @@ const levelHandler = (function () {
       opts.position.y
     )
     if (opts.isClonable) {
-      this.makeClonable(instance, opts, thisRef)
+      _makeClonable.call(this, instance, opts)
     }
 
     if (element.group) {
@@ -82,6 +82,18 @@ const levelHandler = (function () {
     this.statusBar.fixedToCamera = true
   }
 
+  function _updateStatusBar () {
+    console.log(this.statusBar.children)
+  }
+
+  function _makeClonable (sprite, opts) {
+    sprite.dragFromNavbar = true
+    sprite.inputEnabled = true
+    sprite.input.enableDrag()
+    sprite.events.onDragStart.add(opts.onCloneAndDrag, this)
+    sprite.events.onDragStop.add(opts.onStopDrag, this)
+  }
+
   return {
     // get a list of all elements
     getAll: function () {
@@ -110,15 +122,15 @@ const levelHandler = (function () {
 
     // make a sprite "clonable" (mainly for map editor)
     makeClonable: function (sprite, opts, thisRef) {
-      sprite.dragFromNavbar = true
-      sprite.inputEnabled = true
-      sprite.input.enableDrag()
-      sprite.events.onDragStart.add(opts.onCloneAndDrag, thisRef)
-      sprite.events.onDragStop.add(opts.onStopDrag, thisRef)
+      _makeClonable.call(thisRef, sprite, opts)
     },
 
     createStatusBar: function (thisRef) {
       _createStatusBar.call(thisRef)
+    },
+
+    updateStatusBar: function (thisRef) {
+      _updateStatusBar.call(thisRef)
     },
 
     // restart level

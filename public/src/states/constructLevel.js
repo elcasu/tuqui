@@ -95,7 +95,6 @@ ConstructLevelState._loadNavbar = function () {
   let y = 15
   levelHandler.getAll().forEach(function (element) {
     const instance = levelHandler.createInstance(
-      this.game,
       element,
       {
         position: { x: x, y: y },
@@ -153,7 +152,6 @@ ConstructLevelState._loadMap = function (name) {
   api.getMap(name).then(function (map) {
     map.forEach(function (item) {
       const instance = levelHandler.createInstance(
-        thisRef.game,
         levelHandler.get(item.key),
         {
           position: item.position,

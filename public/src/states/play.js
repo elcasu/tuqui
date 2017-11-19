@@ -64,6 +64,12 @@ PlayState._handleCollisions = function () {
 
   // check overlapings
   this.game.physics.arcade.overlap(this.player, levelHandler.getGroup('items'), function(p, s) {
+    switch (s.key) {
+      case 'heart':
+        this.lives++
+        levelHandler.updateStatusBar(this)
+        break
+    }
     s.kill()
   }, null, this)
 }
