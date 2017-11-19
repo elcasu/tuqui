@@ -16,11 +16,12 @@ PlayState.init = function (data) {
 }
 
 PlayState.create = function () {
-  const thisRef = this
   this.game.world.setBounds(0, 0, WIDTH, HEIGHT)
   this.background = this.add.tileSprite(0, 0, WIDTH, HEIGHT, 'background')
   this.background.fixedToCamera = true
-  this._loadMap(this.game.cache.getJSON('level1'))
+
+  // set up level
+  levelHandler.loadMap(this.game.cache.getJSON('level1'), this)
   this.player = levelHandler.get('player').instance
   this.game.camera.follow(this.player, null, 0.1, 0.1)
   levelHandler.createStatusBar(this)
@@ -68,13 +69,13 @@ PlayState._handleCollisions = function () {
     switch (s.key) {
       case 'heart':
         this.lives++
-        levelHandler.updateStatusBar(this)
         break
       case 'coin':
         this.coins++
-        levelHandler.updateStatusBar(this)
         break
     }
+    levelHandler.updateStatusBar(this)
+    levelHandler.collectItem(s, this)
     s.kill()
   }, null, this)
 }
@@ -111,21 +112,4 @@ PlayState._handleInput = function () {
   else {
     player.stopJumpBoost()
   }
-}
-
-PlayState._loadMap = function (map) {
-  map.forEach(function (item) {
-    levelHandler.createInstance(
-      levelHandler.get(item.key),
-      {
-        position: item.position,
-        isClonable: false,
-        onStopDrag: this._stopDrag
-      }, this)
-  },this)
-  this.game.physics.arcade.gravity.y = GRAVITY
-}
-
-PlayState._displayStatus = function () {
-
 }

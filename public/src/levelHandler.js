@@ -1,5 +1,6 @@
 const levelHandler = (function () {
   let _groups = {}
+  let _itemsCollected = []
   const _elements = [
     { key: 'player', className: 'Player' },
     { key: 'heart', className: 'Heart', group: 'items' },
@@ -138,12 +139,48 @@ const levelHandler = (function () {
     }, this)
   }
 
+  function _collectItem (item) {
+    _itemsCollected.push({
+      key: item.key,
+      position: item.position
+    })
+  }
+
   function _makeClonable (sprite, opts) {
     sprite.dragFromNavbar = true
     sprite.inputEnabled = true
     sprite.input.enableDrag()
     sprite.events.onDragStart.add(opts.onCloneAndDrag, this)
     sprite.events.onDragStop.add(opts.onStopDrag, this)
+  }
+
+  function _itemWasCollected (item) {
+    let collected = false
+    _itemsCollected.forEach(function (ic) {
+      if (
+        ic.key === item.key &&
+        ic.position.x === item.position.x &&
+        ic.position.y === item.position.y
+      ) {
+        collected = true
+      }
+    })
+    return collected
+  }
+
+  function _loadMap (map) {
+    map.forEach(function (item) {
+      if (!_itemWasCollected(item)) {
+        levelHandler.createInstance(
+          levelHandler.get(item.key),
+          {
+            position: item.position,
+            isClonable: false,
+            onStopDrag: this._stopDrag
+          }, this)
+      }
+    },this)
+    this.game.physics.arcade.gravity.y = GRAVITY
   }
 
   return {
@@ -172,6 +209,10 @@ const levelHandler = (function () {
       return _createInstance.call(thisRef, element, opts)
     },
 
+    loadMap: function (map, thisRef) {
+      _loadMap.call(thisRef, map)
+    },
+
     // make a sprite "clonable" (mainly for map editor)
     makeClonable: function (sprite, opts, thisRef) {
       _makeClonable.call(thisRef, sprite, opts)
@@ -183,6 +224,10 @@ const levelHandler = (function () {
 
     updateStatusBar: function (thisRef) {
       _updateStatusBar.call(thisRef)
+    },
+
+    collectItem: function (item, thisRef) {
+      _collectItem.call(thisRef, item)
     },
 
     // restart level
