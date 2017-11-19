@@ -51,6 +51,14 @@ const levelHandler = (function () {
   }
 
   function _gameOver() {
+    // set world "darker"
+    const overlay = this.game.add.graphics(0, 0)
+    overlay.beginFill(0)
+    overlay.alpha = 0.5
+    overlay.drawRect(0, 0, WIDTH, HEIGHT)
+    overlay.endFill()
+
+    // display "GAME OVER" text
     const gameOverText = this.game.add.bitmapText(0, 0, 'carrier_command', 'GAME OVER')
     const x = (WINDOW_WIDTH - gameOverText.width) / 2
     const y = (WINDOW_HEIGHT - gameOverText.height) / 2
