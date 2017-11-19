@@ -11,6 +11,7 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('lilShip', 'img/robot2.png', 48, 40)
   this.game.load.spritesheet('yoyo', 'img/yoyo.png', 60, 72)
   this.game.load.spritesheet('grunion', 'img/grunion.png', 168, 132)
+  this.game.load.spritesheet('coin', 'img/coin.png', 30, 30)
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')
   this.game.load.image('robot3', 'img/robot4.png')
   this.game.load.image('platform', 'img/platform.png')
@@ -22,7 +23,6 @@ LoadingState.preload = function () {
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background.png')
   this.game.load.image('heart', 'img/heart.png')
-  this.game.load.image('sun', 'img/sun.png')
   this.game.load.bitmapFont(
     'carrier_command',
     '../../fonts/carrier_command.png',

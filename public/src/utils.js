@@ -3,6 +3,7 @@ const levelHandler = (function () {
   const _elements = [
     { key: 'player', className: 'Player' },
     { key: 'heart', className: 'Heart', group: 'items' },
+    { key: 'coin', className: 'Coin', group: 'items' },
     { key: 'spider', className: 'Spider', group: 'enemies' },
     { key: 'spider2', className: 'Spider2', group: 'enemies' },
     { key: 'lilShip', className: 'LilShip', group: 'enemies' },
