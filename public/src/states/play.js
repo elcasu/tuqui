@@ -70,6 +70,10 @@ PlayState._handleCollisions = function () {
         this.lives++
         levelHandler.updateStatusBar(this)
         break
+      case 'coin':
+        this.coins++
+        levelHandler.updateStatusBar(this)
+        break
     }
     s.kill()
   }, null, this)

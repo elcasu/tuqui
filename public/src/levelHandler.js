@@ -68,6 +68,7 @@ const levelHandler = (function () {
   }
 
   function _createStatusBar () {
+    // heart sprite
     const heart = _createInstance.call(
       this,
       _get('heart'),
@@ -78,6 +79,8 @@ const levelHandler = (function () {
         }
       }
     )
+
+    // lives text
     const livesText = this.game.add.bitmapText(
       heart.position.x + heart.width + 10,
       heart.position.y,
@@ -85,9 +88,33 @@ const levelHandler = (function () {
       this.lives
     )
     livesText.key = 'lives-text'
+
+    // coin sprite
+    const coin = _createInstance.call(
+      this,
+      _get('coin'),
+      {
+        position: {
+          x: heart.width + livesText.width + 60,
+          y: 10
+        }
+      }
+    )
+    coin.animations.stop()
+
+    // coins text
+    const coinsText = this.game.add.bitmapText(
+      coin.position.x + coin.width + 10,
+      coin.position.y,
+      'carrier_command',
+      this.coins || '0'
+    )
+    coinsText.key = 'coins-text'
     this.statusBar = this.game.add.group()
     this.statusBar.add(heart)
     this.statusBar.add(livesText)
+    this.statusBar.add(coin)
+    this.statusBar.add(coinsText)
     this.statusBar.fixedToCamera = true
   }
 
@@ -101,6 +128,11 @@ const levelHandler = (function () {
           if (this.lives === 0) {
             item.animations.play('sad')
           }
+          break
+        }
+        case 'coins-text': {
+          item.text = this.coins
+          break
         }
       }
     }, this)
