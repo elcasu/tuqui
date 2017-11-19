@@ -54,6 +54,7 @@ PlayState._handleCollisions = function () {
         // actions after player dies
         this.lives--
         if (this.lives === 0) {
+          levelHandler.updateStatusBar(this)
           levelHandler.gameOver(this)
         }
         else {

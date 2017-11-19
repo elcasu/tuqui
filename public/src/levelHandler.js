@@ -76,6 +76,7 @@ const levelHandler = (function () {
       'carrier_command',
       this.lives
     )
+    livesText.key = 'lives-text'
     this.statusBar = this.game.add.group()
     this.statusBar.add(heart)
     this.statusBar.add(livesText)
@@ -83,7 +84,18 @@ const levelHandler = (function () {
   }
 
   function _updateStatusBar () {
-    console.log(this.statusBar.children)
+    this.statusBar.children.forEach(function (item) {
+      switch (item.key) {
+        case 'lives-text':
+          item.text = this.lives
+          break
+        case 'heart': {
+          if (this.lives === 0) {
+            item.animations.play('sad')
+          }
+        }
+      }
+    }, this)
   }
 
   function _makeClonable (sprite, opts) {
