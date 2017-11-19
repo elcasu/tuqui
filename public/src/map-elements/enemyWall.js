@@ -1,4 +1,4 @@
-function EnemyWall (game, x, y, data) {
+function EnemyWall (game, x, y) {
   Phaser.Sprite.call(this, game, x, y, 'invisibleWall')
   this.game.physics.enable(this)
   this.body.immovable = true

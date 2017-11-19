@@ -7,11 +7,10 @@ function Player (game, x, y) {
     this.body.gravity.y = 300
     this.body.collideWorldBounds = true
     this.animations.add('stop', [0])
-    this.animations.add('jump', [0]) // TODO: make jump animation
-    this.animations.add('fall', [0]) // TODO: make fall animation
-    // this.animations.add('left', [0, 1, 2, 3], 6, true)
+    this.animations.add('jump', [4])
+    this.animations.add('fall', [5]) // TODO: make fall animation
     this.animations.add('run', [0, 1, 2, 3], 6, true)
-    this.animations.add('die', [4, 5, 6, 7, 8], 10, false)
+    this.animations.add('die', [6, 7, 8, 9, 10], 10, false)
     this.anchor.setTo(.5,.5)
     this._currentDirection = 1
   }
