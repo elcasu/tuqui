@@ -2,6 +2,7 @@ const LoadingState = {}
 
 LoadingState.init = function (nextState) {
   this.nextState = nextState || 'play'
+  this.game.add.text(0, 0, 'Cargando...')
 }
 
 LoadingState.preload = function () {
