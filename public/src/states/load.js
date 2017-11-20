@@ -2,10 +2,12 @@ const LoadingState = {}
 
 LoadingState.init = function (nextState) {
   this.nextState = nextState || 'play'
-  this.game.add.text(0, 0, 'Cargando...')
 }
 
 LoadingState.preload = function () {
+  const x = (WINDOW_WIDTH - 200) / 2
+  const y = (WINDOW_HEIGHT - 20) / 2
+  this.game.add.text(x, y, 'Cargando...', { fill: 'gray' })
   this.game.load.spritesheet('player', 'img/player.png', 84, 54)
   this.game.load.spritesheet('spider', 'img/spider.png', 72, 72)
   this.game.load.spritesheet('spider2', 'img/spider2.png', 78, 30)
@@ -24,12 +26,12 @@ LoadingState.preload = function () {
   this.game.load.image('bucket', 'img/bucket.png')
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background.png')
+  this.game.load.json('level1', '/api/maps/level1')
   this.game.load.bitmapFont(
     'carrier_command',
     '../../fonts/carrier_command.png',
     '../../fonts/carrier_command.xml'
   )
-  this.game.load.json('level1', '/api/maps/level1')
 }
 
 LoadingState.create = function () {
