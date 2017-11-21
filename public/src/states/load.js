@@ -5,8 +5,10 @@ LoadingState.init = function (nextState) {
 }
 
 LoadingState.preload = function () {
-  const x = (WINDOW_WIDTH - 200) / 2
-  const y = (WINDOW_HEIGHT - 20) / 2
+  const x = (this.game.width - 200) / 2
+  const y = (this.game.height - 20) / 2
+  this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+  this.game.scale.updateLayout(true);
   this.game.add.text(x, y, 'Cargando...', { fill: 'gray' })
   this.game.load.spritesheet('player', 'img/player.png', 84, 54)
   this.game.load.spritesheet('spider', 'img/spider.png', 72, 72)
@@ -16,13 +18,13 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('grunion', 'img/grunion.png', 168, 132)
   this.game.load.spritesheet('coin', 'img/coin.png', 30, 30)
   this.game.load.spritesheet('heart', 'img/heart.png', 48, 36)
+  this.game.load.spritesheet('key', 'img/key.png', 30, 62)
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')
   this.game.load.image('robot3', 'img/robot4.png')
   this.game.load.image('platform', 'img/platform.png')
   this.game.load.image('star', 'img/star.png')
   this.game.load.image('cloud1', 'img/cloud.png')
   this.game.load.image('cloud2', 'img/cloud2.png')
-  this.game.load.image('key', 'img/key.png')
   this.game.load.image('bucket', 'img/bucket.png')
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background.png')
@@ -32,6 +34,11 @@ LoadingState.preload = function () {
     '../../fonts/carrier_command.png',
     '../../fonts/carrier_command.xml'
   )
+
+  // mobile-only assets
+  if (!this.game.device.desktop) {
+    this.game.load.spritesheet('mobileArrow', 'img/mobileArrows.png', 44, 44)
+  }
 }
 
 LoadingState.create = function () {

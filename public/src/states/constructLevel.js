@@ -1,4 +1,6 @@
 const DRAG_VELOCITY = 0.05
+const WINDOW_WIDTH = window.outerWidth
+const WINDOW_HEIGHT = window.innerHeight
 
 const ConstructLevelState = {}
 

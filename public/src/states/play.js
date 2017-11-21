@@ -11,6 +11,7 @@ PlayState.init = function (data) {
   this.currentLevel = data && data.level || 1
   this.lives = data && data.lives || 3
   this.coins = data && data.coins || 0
+  this.hasKey = data && data.hasKey || false
   this.camera.x = 0
   this.camera.y = 0
 }
@@ -25,10 +26,12 @@ PlayState.create = function () {
   this.player = levelHandler.get('player').instance
   this.game.camera.follow(this.player, null, 0.1, 0.1)
   levelHandler.createStatusBar(this)
+  if (!this.game.device.desktop) {
+    this._spawnMobileControls()
+  }
 }
 
 PlayState.update = function () {
-  // this.game.debug.text(`Device ratio: ${window.devicePixelRatio}`, 100, 100)
   this._handleCollisions()
   this._handleInput()
 }
@@ -73,6 +76,9 @@ PlayState._handleCollisions = function () {
       case 'coin':
         this.coins++
         break
+      case 'key':
+        this.hasKey = true
+        break
     }
     levelHandler.updateStatusBar(this)
     levelHandler.collectItem(s, this)
@@ -81,14 +87,14 @@ PlayState._handleCollisions = function () {
 }
 
 PlayState._isTappingLeft = function () {
-  const LEFT = 0
-  const isLeft = Math.floor(this.game.input.x / (WINDOW_WIDTH / 2)) === LEFT
+  if (!this.mobile) return
+  const isLeft = this.mobile.left.input.pointerOver()
   return this.game.input.pointer1.isDown && isLeft
 }
 
 PlayState._isTappingRight = function () {
-  const RIGHT = 1
-  const isRight = Math.floor(this.game.input.x / (WINDOW_WIDTH / 2)) === RIGHT
+  if (!this.mobile) return
+  const isRight = this.mobile.right.input.pointerOver()
   return this.game.input.pointer1.isDown && isRight
 }
 
@@ -112,4 +118,64 @@ PlayState._handleInput = function () {
   else {
     player.stopJumpBoost()
   }
+}
+
+PlayState._spawnMobileControls = function () {
+  const mobileControls = this.game.add.group()
+  const cAlpha = 0.3
+
+  // left control
+  const c1 = this.game.add.graphics(0, 0)
+  c1.beginFill(0, cAlpha)
+  c1.drawCircle(this.game.width - 250, this.game.height - 100, 100)
+  c1.endFill()
+  const aLeft = new Phaser.Sprite(
+    this.game,
+    c1.graphicsData[0].shape.x - 25,
+    c1.graphicsData[0].shape.y - 25,
+    'mobileArrow',
+    1
+  )
+  aLeft.inputEnabled = true
+
+  // right control
+  const c2 = this.game.add.graphics(0, 0)
+  c2.beginFill(0, cAlpha)
+  c2.drawCircle(this.game.width - 100, this.game.height - 100, 100)
+  c2.endFill()
+  const aRight = new Phaser.Sprite(
+    this.game,
+    c2.graphicsData[0].shape.x - 25,
+    c2.graphicsData[0].shape.y - 25,
+    'mobileArrow',
+    2
+  )
+  aRight.inputEnabled = true
+
+  // jump control
+  const c3 = this.game.add.graphics(0, 0)
+  c3.beginFill(0, cAlpha)
+  c3.drawCircle(100, this.game.height - 100, 100)
+  c3.endFill()
+  const aJump = new Phaser.Sprite(
+    this.game,
+    c3.graphicsData[0].shape.x - 25,
+    c3.graphicsData[0].shape.y - 25,
+    'mobileArrow',
+    0
+  )
+  aJump.inputEnabled = true
+
+  this.mobile = {}
+  this.mobile.left = aLeft
+  this.mobile.right = aRight
+  this.mobile.jump = aJump
+
+  mobileControls.fixedToCamera = true
+  mobileControls.add(c1)
+  mobileControls.add(aLeft)
+  mobileControls.add(c2)
+  mobileControls.add(aRight)
+  mobileControls.add(c3)
+  mobileControls.add(aJump)
 }

@@ -5,6 +5,7 @@ const levelHandler = (function () {
     { key: 'player', className: 'Player' },
     { key: 'heart', className: 'Heart', group: 'items' },
     { key: 'coin', className: 'Coin', group: 'items' },
+    { key: 'key', className: 'Key', group: 'items' },
     { key: 'spider', className: 'Spider', group: 'enemies' },
     { key: 'spider2', className: 'Spider2', group: 'enemies' },
     { key: 'lilShip', className: 'LilShip', group: 'enemies' },
@@ -69,14 +70,27 @@ const levelHandler = (function () {
   }
 
   function _createStatusBar () {
+    // key sprite
+    const key = _createInstance.call(
+      this,
+      _get('key'),
+      {
+        position: {
+          x: 10,
+          y: 10
+        }
+      }
+    )
+    key.animations.play('inactive')
+
     // heart sprite
     const heart = _createInstance.call(
       this,
       _get('heart'),
       {
         position: {
-          x: 10,
-          y: 10
+          x: key.position.x + key.width + 30,
+          y: key.position.y
         }
       }
     )
@@ -96,7 +110,7 @@ const levelHandler = (function () {
       _get('coin'),
       {
         position: {
-          x: heart.width + livesText.width + 60,
+          x: heart.position.x + heart.width + livesText.width + 40,
           y: 10
         }
       }
@@ -112,6 +126,7 @@ const levelHandler = (function () {
     )
     coinsText.key = 'coins-text'
     this.statusBar = this.game.add.group()
+    this.statusBar.add(key)
     this.statusBar.add(heart)
     this.statusBar.add(livesText)
     this.statusBar.add(coin)
@@ -125,16 +140,19 @@ const levelHandler = (function () {
         case 'lives-text':
           item.text = this.lives
           break
-        case 'heart': {
+        case 'heart':
           if (this.lives === 0) {
             item.animations.play('sad')
           }
           break
-        }
-        case 'coins-text': {
+        case 'coins-text':
           item.text = this.coins
           break
-        }
+        case 'key':
+          if (this.hasKey) {
+            item.animations.play('active')
+          }
+          break
       }
     }, this)
   }
