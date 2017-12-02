@@ -2,10 +2,10 @@ const levelHandler = (function () {
   let _groups = {}
   let _itemsCollected = []
   const _elements = [
-    { key: 'player', className: 'Player' },
+    { key: 'player', className: 'Player', unique: true },
     { key: 'heart', className: 'Heart', group: 'items' },
     { key: 'coin', className: 'Coin', group: 'items' },
-    { key: 'key', className: 'Key', group: 'items' },
+    { key: 'key', className: 'Key', group: 'items', unique: true },
     { key: 'spider', className: 'Spider', group: 'enemies' },
     { key: 'spider2', className: 'Spider2', group: 'enemies' },
     { key: 'lilShip', className: 'LilShip', group: 'enemies' },
@@ -28,6 +28,10 @@ const levelHandler = (function () {
     )
     if (opts.isClonable) {
       _makeClonable.call(this, instance, opts)
+    }
+    else {
+      instance.inputEnabled = true
+      instance.input.enableDrag()
     }
 
     if (element.group) {

@@ -100,7 +100,7 @@ ConstructLevelState._loadNavbar = function () {
       element,
       {
         position: { x: x, y: y },
-        isClonable: true,
+        isClonable: !element.unique,
         onCloneAndDrag: this._cloneAndDrag,
         onStopDrag: this._stopDrag
       },
@@ -111,7 +111,7 @@ ConstructLevelState._loadNavbar = function () {
   }, this)
 
   // thrash bucket
-  const bucket = this.game.add.sprite(WIDTH - 100, 20, 'bucket')
+  const bucket = this.game.add.sprite(WIDTH - 100, 25, 'bucket')
   bucket.game.physics.arcade.enable(bucket)
   bucket.body.allowGravity = false
 
@@ -152,18 +152,20 @@ ConstructLevelState._saveMap = function () {
 ConstructLevelState._loadMap = function (name) {
   const thisRef = this
   api.getMap(name).then(function (map) {
-    map.forEach(function (item) {
-      const instance = levelHandler.createInstance(
-        levelHandler.get(item.key),
-        {
-          position: item.position,
-          isClonable: false,
-          onStopDrag: thisRef._stopDrag
-        },
-        thisRef
-      )
-      thisRef._makeDraggable(instance)
-      thisRef.elements.add(instance)
-    })
+    if(map && map.length) {
+      map.forEach(function (item) {
+        const instance = levelHandler.createInstance(
+          levelHandler.get(item.key),
+          {
+            position: item.position,
+            isClonable: false,
+            onStopDrag: thisRef._stopDrag
+          },
+          thisRef
+        )
+        thisRef._makeDraggable(instance)
+        thisRef.elements.add(instance)
+      })
+    }
   })
 }
