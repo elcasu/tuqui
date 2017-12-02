@@ -110,6 +110,7 @@ PlayState._handleInput = function () {
     player.move(0)
   }
 
+  // if (Phaser.Rectangle.intersects(player.getBounds(), ))
   // handle jump
   const JUMP_HOLD = 200; // ms
   if (this.keys.up.downDuration(JUMP_HOLD)) {

@@ -8,11 +8,21 @@ const levelHandler = (function () {
     { key: 'key', className: 'Key', group: 'items', unique: true },
     { key: 'spider', className: 'Spider', group: 'enemies' },
     { key: 'spider2', className: 'Spider2', group: 'enemies' },
+    { key: 'crocodile', className: 'Crocodile', group: 'enemies' },
     { key: 'lilShip', className: 'LilShip', group: 'enemies' },
     { key: 'grunion', className: 'Grunion', group: 'enemies' },
     { key: 'invisibleWall', className: 'EnemyWall', group: 'enemyWalls', visible: false },
-    { key: 'platform', className: 'Platform', group: 'platforms' }
+    { key: 'platform', className: 'Platform', group: 'platforms' },
+    { key: 'stair', className: 'Stair', group: 'stairs' }
   ]
+
+   const _zOrders = [
+     'stairs',
+     'items',
+     'enemyWalls',
+     'enemies',
+     'platforms'
+   ]
 
   function _get (key) {
     const f = _elements.filter(function (e) { return e.key === key })
@@ -193,8 +203,17 @@ const levelHandler = (function () {
     return collected
   }
 
-  function _loadMap (map) {
-    map.forEach(function (item) {
+  function _loadMap (mapItems) {
+    let orderedList = []
+    _zOrders.forEach(function(group) {
+      orderedList = orderedList.concat(mapItems.filter(function(i) {
+        return _get(i.key).group === group
+      }, this))
+    }, this)
+    orderedList = orderedList.concat(mapItems.filter(function(i) {
+      return !_get(i.key).group
+    }, this))
+    orderedList.forEach(function (item) {
       if (!_itemWasCollected(item)) {
         levelHandler.createInstance(
           levelHandler.get(item.key),

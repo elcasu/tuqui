@@ -10,10 +10,11 @@ LoadingState.preload = function () {
   this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
   this.game.scale.updateLayout(true);
   this.game.add.text(x, y, 'Cargando...', { fill: 'gray' })
-  this.game.load.spritesheet('player', 'img/player.png', 84, 54)
+  this.game.load.spritesheet('player', 'img/player.png', 60, 54)
   this.game.load.spritesheet('spider', 'img/spider.png', 72, 72)
   this.game.load.spritesheet('spider2', 'img/spider2.png', 78, 30)
   this.game.load.spritesheet('lilShip', 'img/robot2.png', 48, 40)
+  this.game.load.spritesheet('crocodile', 'img/crocodile.png', 84, 64)
   this.game.load.spritesheet('yoyo', 'img/yoyo.png', 60, 72)
   this.game.load.spritesheet('grunion', 'img/grunion.png', 168, 132)
   this.game.load.spritesheet('coin', 'img/coin.png', 30, 30)
@@ -25,6 +26,7 @@ LoadingState.preload = function () {
   this.game.load.image('star', 'img/star.png')
   this.game.load.image('cloud1', 'img/cloud.png')
   this.game.load.image('cloud2', 'img/cloud2.png')
+  this.game.load.image('stair', 'img/stair.png')
   this.game.load.image('bucket', 'img/bucket.png')
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background.png')

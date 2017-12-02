@@ -9,8 +9,9 @@ function Player (game, x, y) {
     this.animations.add('stop', [0])
     this.animations.add('jump', [4])
     this.animations.add('fall', [5]) // TODO: make fall animation
-    this.animations.add('run', [0, 1, 2, 3], 6, true)
-    this.animations.add('die', [6, 7, 8, 9, 10], 10, false)
+    this.animations.add('climb', [6, 7, 8, 9], 6, true)
+    this.animations.add('run', [0, 1, 2, 3], 7, true)
+    this.animations.add('die', [10, 11, 12, 13, 14], 10, false)
     this.anchor.setTo(.5,.5)
     this._currentDirection = 1
   }
@@ -29,7 +30,7 @@ Player.prototype.move = function (direction) {
 }
 
 Player.prototype.jump = function () {
-  const JUMP_SPEED = 350
+  const JUMP_SPEED = 250
   let canJump = this.body.touching.down && this.alive
 
   if (canJump || this.isBoosting) {
