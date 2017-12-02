@@ -17,7 +17,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       fs.readFile(path, (err, data) => {
         if (err) {
-          return reject(err)
+          return resolve({})
         }
         return resolve(data)
       })
