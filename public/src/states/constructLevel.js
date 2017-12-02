@@ -73,6 +73,12 @@ ConstructLevelState._stopDrag = function (sprite, pointer) {
     sprite.y += this.game.camera.y
     sprite.dragFromNavbar = false
   }
+
+  // handle bucket functionality
+  if (Phaser.Rectangle.contains(this.bucket.body, this.game.input.x, this.game.input.y)) {
+    this.elements.remove(sprite)
+    sprite.kill()
+  }
 }
 
 ConstructLevelState._pointerIntersects = function (pointer, sprite) {
@@ -114,6 +120,7 @@ ConstructLevelState._loadNavbar = function () {
   const bucket = this.game.add.sprite(WIDTH - 100, 25, 'bucket')
   bucket.game.physics.arcade.enable(bucket)
   bucket.body.allowGravity = false
+  this.bucket = bucket
 
   // save button
   const saveButton = this.game.add.sprite(WIDTH - 150, 30, 'editor-save')

@@ -30,8 +30,11 @@ const levelHandler = (function () {
       _makeClonable.call(this, instance, opts)
     }
     else {
-      instance.inputEnabled = true
-      instance.input.enableDrag()
+      if (this.game.editing) {
+        instance.inputEnabled = true
+        instance.input.enableDrag()
+        instance.events.onDragStop.add(opts.onStopDrag, this)
+      }
     }
 
     if (element.group) {
