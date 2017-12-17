@@ -40,6 +40,26 @@ Player.prototype.jump = function () {
   return canJump;
 }
 
+Player.prototype.climb = function (vDirection) {
+  const SPEED = 3
+  this.body.allowGravity = false
+  this.body.y += vDirection * SPEED
+  this.isClimbing = true
+  if (vDirection === 0) {
+    console.log('paused')
+    this.animations.paused = true
+  }
+  else {
+    console.log('playing...')
+    this.animations.paused = false
+  }
+}
+
+Player.prototype.stopClimb = function () {
+  this.body.allowGravity = true
+  this.isClimbing = false
+}
+
 Player.prototype.stopJumpBoost = function () {
   this.isBoosting = false
 }
@@ -48,6 +68,9 @@ Player.prototype._getAnimationName = function () {
   let name = 'stop'
   if (!this.alive) {
     name = 'die'
+  }
+  else if (this.isClimbing) {
+    name = 'climb'
   }
   else if (this.body.velocity.y < 0) {
     name = 'jump'

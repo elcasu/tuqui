@@ -4,7 +4,8 @@ PlayState.init = function (data) {
   this.keys = this.game.input.keyboard.addKeys({
     left: Phaser.KeyCode.LEFT,
     right: Phaser.KeyCode.RIGHT,
-    up: Phaser.KeyCode.UP
+    up: Phaser.KeyCode.UP,
+    down: Phaser.KeyCode.DOWN
   })
   this.starsCount = 0
   this.hasKey = false
@@ -110,14 +111,28 @@ PlayState._handleInput = function () {
     player.move(0)
   }
 
-  // if (Phaser.Rectangle.intersects(player.getBounds(), ))
-  // handle jump
-  const JUMP_HOLD = 200; // ms
-  if (this.keys.up.downDuration(JUMP_HOLD)) {
-    let didJump = player.jump()
+  const stairs = levelHandler.getGroup('stairs')
+  if (this.game.physics.arcade.overlap(player, stairs)) {
+    if (this.keys.up.isDown) {
+      player.climb(-1)
+    }
+    else if (this.keys.down.isDown) {
+      player.climb(1)
+    }
+    else {
+      player.climb(0)
+    }
   }
   else {
-    player.stopJumpBoost()
+    player.stopClimb()
+    // handle jump
+    const JUMP_HOLD = 200; // ms
+    if (this.keys.up.downDuration(JUMP_HOLD)) {
+      let didJump = player.jump()
+    }
+    else {
+      player.stopJumpBoost()
+    }
   }
 }
 
