@@ -7,15 +7,27 @@ const ConstructLevelState = {}
 ConstructLevelState.init = function (data) {
   this.game.stage.backgroundColor = 0x5555ff
   this.game.editing = true
+  const search = document.location.href.split('?')[1]
+  this.params = {}
+  if (search) {
+    const params = search.split('&')
+    params.forEach(function (p) {
+      const pKey = p.split('=')[0]
+      const pVal = p.split('=')[1]
+      this.params[pKey] = pVal
+    }, this)
+  }
 }
 
 ConstructLevelState.create = function () {
+  console.log(this.params)
+  this.currentLevel = this.params.level || 'level1'
   this.game.world.setBounds(0, 0, 10000, 20000)
   this.background = this.game.add.group()
   this.background.create(0, 0, 'background')
   this.elements = this.game.add.group()
   this._loadNavbar()
-  this._loadMap('level1')
+  this._loadMap(this.currentLevel)
 }
 
 ConstructLevelState.update = function () {
@@ -151,7 +163,7 @@ ConstructLevelState._saveMap = function () {
   // request the server to save generated JSON
   const savingText = this.game.add.bitmapText(10, 100, 'carrier_command', 'Guardando...')
   savingText.fixedToCamera = true
-  api.saveMap('level1', payload).then(function (res) {
+  api.saveMap(this.currentLevel, payload).then(function (res) {
     savingText.kill()
   })
 }

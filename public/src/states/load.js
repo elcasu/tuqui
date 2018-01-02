@@ -20,9 +20,12 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('coin', 'img/coin.png', 30, 30)
   this.game.load.spritesheet('heart', 'img/heart.png', 48, 36)
   this.game.load.spritesheet('key', 'img/key.png', 30, 62)
+  this.game.load.spritesheet('door', 'img/door.png', 84, 108)
+  this.game.load.spritesheet('exitTube', 'img/exit-tube.png', 240, 174)
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')
   this.game.load.image('robot3', 'img/robot4.png')
   this.game.load.image('platform', 'img/platform.png')
+  this.game.load.image('platformShort', 'img/platform-short.png')
   this.game.load.image('star', 'img/star.png')
   this.game.load.image('cloud1', 'img/cloud.png')
   this.game.load.image('cloud2', 'img/cloud2.png')
@@ -31,6 +34,7 @@ LoadingState.preload = function () {
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background.png')
   this.game.load.json('level1', '/api/maps/level1')
+  this.game.load.json('level2', '/api/maps/level2')
   this.game.load.bitmapFont(
     'carrier_command',
     '../../fonts/carrier_command.png',

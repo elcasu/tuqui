@@ -6,6 +6,7 @@ const levelHandler = (function () {
     { key: 'heart', className: 'Heart', group: 'items' },
     { key: 'coin', className: 'Coin', group: 'items' },
     { key: 'key', className: 'Key', group: 'items', unique: true },
+    { key: 'door', className: 'Door', group: 'doors', unique: true },
     { key: 'spider', className: 'Spider', group: 'enemies' },
     { key: 'spider2', className: 'Spider2', group: 'enemies' },
     { key: 'crocodile', className: 'Crocodile', group: 'enemies' },
@@ -13,11 +14,13 @@ const levelHandler = (function () {
     { key: 'grunion', className: 'Grunion', group: 'enemies' },
     { key: 'invisibleWall', className: 'EnemyWall', group: 'enemyWalls', visible: false },
     { key: 'platform', className: 'Platform', group: 'platforms' },
+    { key: 'platformShort', className: 'PlatformShort', group: 'platforms' },
     { key: 'stair', className: 'Stair', group: 'stairs' }
   ]
 
    const _zOrders = [
      'stairs',
+     'doors',
      'items',
      'enemyWalls',
      'enemies',
@@ -64,6 +67,15 @@ const levelHandler = (function () {
     _groups = {}
     this.game.state.restart(true, false, {
       level: this.currentLevel,
+      lives: this.lives,
+      coins: this.coins
+    })
+  }
+
+  function _levelUp () {
+    _groups = {}
+    this.game.state.restart(true, false, {
+      level: this.currentLevel + 1,
       lives: this.lives,
       coins: this.coins
     })
@@ -277,6 +289,11 @@ const levelHandler = (function () {
     // restart level
     restart: function (thisRef) {
       _restart.call(thisRef)
+    },
+
+    // level up :-)
+    levelUp: function (thisRef) {
+      _levelUp.call(thisRef)
     },
 
     // game over! :-(

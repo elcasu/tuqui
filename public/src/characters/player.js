@@ -46,11 +46,9 @@ Player.prototype.climb = function (vDirection) {
   this.body.y += vDirection * SPEED
   this.isClimbing = true
   if (vDirection === 0) {
-    console.log('paused')
     this.animations.paused = true
   }
   else {
-    console.log('playing...')
     this.animations.paused = false
   }
 }

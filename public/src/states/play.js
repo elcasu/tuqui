@@ -23,13 +23,18 @@ PlayState.create = function () {
   this.background.fixedToCamera = true
 
   // set up level
-  levelHandler.loadMap(this.game.cache.getJSON('level1'), this)
+  const levelStr = 'level' + this.currentLevel
+  let map = this.game.cache.getJSON(levelStr)
+  levelHandler.loadMap(map, this)
   this.player = levelHandler.get('player').instance
   this.game.camera.follow(this.player, null, 0.1, 0.1)
   levelHandler.createStatusBar(this)
   if (!this.game.device.desktop) {
     this._spawnMobileControls()
   }
+
+  // create door
+  this.door = levelHandler.getGroup('doors').children[0]
 }
 
 PlayState.update = function () {
@@ -79,12 +84,32 @@ PlayState._handleCollisions = function () {
         break
       case 'key':
         this.hasKey = true
+        this.door.open()
         break
     }
     levelHandler.updateStatusBar(this)
     levelHandler.collectItem(s, this)
     s.kill()
   }, null, this)
+
+  // check whenever the player overlaps door
+  this.game.physics.arcade.overlap(this.player, levelHandler.getGroup('doors'), function(p, door) {
+    const _this = this
+    if (door.isOpen) {
+      const tubeX = door.position.x + door.width
+      const tubeY = door.position.y - 100
+      this.exitTube = new ExitTube(this.game, tubeX, tubeY)
+      this.game.add.existing(this.exitTube)
+      this.player.destroy()
+      this.exitTube.exit(function (game) {
+        game.camera.fade(0, 500)
+        game.camera.onFadeComplete.add(function() {
+          levelHandler.levelUp(_this)
+        });
+      })
+    }
+  }, null, this)
+
 }
 
 PlayState._isTappingLeft = function () {
@@ -101,6 +126,7 @@ PlayState._isTappingRight = function () {
 
 PlayState._handleInput = function () {
   const player = levelHandler.get('player').instance
+  if (!player.body) return
   if (this.keys.left.isDown || this._isTappingLeft()) {
     player.move(-1)
   }
