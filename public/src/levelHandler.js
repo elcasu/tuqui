@@ -10,6 +10,8 @@ const levelHandler = (function () {
     { key: 'spider', className: 'Spider', group: 'enemies' },
     { key: 'spider2', className: 'Spider2', group: 'enemies' },
     { key: 'crocodile', className: 'Crocodile', group: 'enemies' },
+    { key: 'oer', className: 'Oer', group: 'enemies' },
+    { key: 'squarebot', className: 'Squarebot', group: 'enemies' },
     { key: 'lilShip', className: 'LilShip', group: 'enemies' },
     { key: 'grunion', className: 'Grunion', group: 'enemies' },
     { key: 'invisibleWall', className: 'EnemyWall', group: 'enemyWalls', visible: false },

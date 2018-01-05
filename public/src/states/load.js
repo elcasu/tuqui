@@ -17,6 +17,8 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('crocodile', 'img/crocodile.png', 84, 64)
   this.game.load.spritesheet('yoyo', 'img/yoyo.png', 60, 72)
   this.game.load.spritesheet('grunion', 'img/grunion.png', 168, 132)
+  this.game.load.spritesheet('oer', 'img/oer.png', 48, 56)
+  this.game.load.spritesheet('squarebot', 'img/squarebot.png', 84, 81)
   this.game.load.spritesheet('coin', 'img/coin.png', 30, 30)
   this.game.load.spritesheet('heart', 'img/heart.png', 48, 36)
   this.game.load.spritesheet('key', 'img/key.png', 30, 62)

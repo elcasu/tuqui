@@ -6,7 +6,7 @@ function ExitTube (game, x, y) {
   this.exiting = false
   animFrames = []
   for (let i = 0; i < 12; i++) animFrames[i] = i
-  this.animations.add('player-through', animFrames, 5, false)
+  this.animations.add('player-through', animFrames, 10, false)
 }
 
 ExitTube.prototype = Object.create(Phaser.Sprite.prototype)

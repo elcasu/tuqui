@@ -5,7 +5,11 @@ PlayState.init = function (data) {
     left: Phaser.KeyCode.LEFT,
     right: Phaser.KeyCode.RIGHT,
     up: Phaser.KeyCode.UP,
-    down: Phaser.KeyCode.DOWN
+    down: Phaser.KeyCode.DOWN,
+    a: Phaser.KeyCode.A,
+    w: Phaser.KeyCode.W,
+    s: Phaser.KeyCode.S,
+    d: Phaser.KeyCode.D
   })
   this.starsCount = 0
   this.hasKey = false
@@ -127,10 +131,10 @@ PlayState._isTappingRight = function () {
 PlayState._handleInput = function () {
   const player = levelHandler.get('player').instance
   if (!player.body) return
-  if (this.keys.left.isDown || this._isTappingLeft()) {
+  if (this.keys.left.isDown || this._isTappingLeft() || this.keys.a.isDown) {
     player.move(-1)
   }
-  else if (this.keys.right.isDown || this._isTappingRight()) {
+  else if (this.keys.right.isDown || this._isTappingRight() || this.keys.d.isDown) {
     player.move(1)
   }
   else {
@@ -153,7 +157,7 @@ PlayState._handleInput = function () {
     player.stopClimb()
     // handle jump
     const JUMP_HOLD = 200; // ms
-    if (this.keys.up.downDuration(JUMP_HOLD)) {
+    if (this.keys.up.downDuration(JUMP_HOLD) || this.keys.w.downDuration(JUMP_HOLD)) {
       let didJump = player.jump()
     }
     else {
