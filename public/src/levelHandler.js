@@ -79,7 +79,8 @@ const levelHandler = (function () {
     this.game.state.restart(true, false, {
       level: this.currentLevel,
       lives: this.lives,
-      coins: this.coins
+      coins: this.coins,
+      hasKey: this.hasKey
     })
 
     // clear active timers

@@ -41,6 +41,10 @@ PlayState.create = function () {
 
   // create door
   this.door = levelHandler.getGroup('doors').children[0]
+  levelHandler.updateStatusBar(this)
+  if (this.hasKey) {
+    this.door.open()
+  }
 }
 
 PlayState.update = function () {
