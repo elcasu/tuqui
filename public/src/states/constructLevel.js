@@ -5,6 +5,17 @@ const WINDOW_HEIGHT = window.innerHeight
 const ConstructLevelState = {}
 
 ConstructLevelState.init = function (data) {
+  this.keys = this.game.input.keyboard.addKeys({
+    left: Phaser.KeyCode.LEFT,
+    right: Phaser.KeyCode.RIGHT,
+    up: Phaser.KeyCode.UP,
+    down: Phaser.KeyCode.DOWN,
+    a: Phaser.KeyCode.A,
+    w: Phaser.KeyCode.W,
+    s: Phaser.KeyCode.S,
+    d: Phaser.KeyCode.D,
+    e: Phaser.KeyCode.E
+  })
   this.game.stage.backgroundColor = 0x5555ff
   this.game.editing = true
   const search = document.location.href.split('?')[1]
@@ -99,19 +110,40 @@ ConstructLevelState._pointerIntersects = function (pointer, sprite) {
 }
 
 ConstructLevelState._loadNavbar = function () {
-  // background
+  const xPadding = 45
+  const navHeight = 170
+  const rightPadWidth = 200
+  const padColor = 0x333333
+
+  // static background
+  const leftPad = this.game.add.graphics(0, 0)
+  leftPad.beginFill(padColor)
+  leftPad.drawRect(0, 0, xPadding, navHeight)
+  leftPad.endFill()
+
+  const rightPad = this.game.add.graphics(0, 0)
+  rightPad.beginFill(padColor)
+  rightPad.drawRect(WIDTH - rightPadWidth, 0, WIDTH, navHeight)
+  rightPad.endFill()
+
+
+  // inner background
   const navBackground = this.game.add.graphics(0, 0)
-  navBackground.beginFill(0)
-  navBackground.alpha = 0.5
-  navBackground.drawRect(0, 0, WIDTH, 170)
+  navBackground.beginFill(0x330000)
+  //navBackground.alpha = 0.5
+  navBackground.drawRect(xPadding, 0, WIDTH - xPadding * 2, navHeight)
   navBackground.endFill()
 
   // add items to the navbar
+  this.elemWrapper = this.game.add.group()
   this.navbar = this.game.add.group()
   this.navbar.add(navBackground)
+  this.navbar.add(this.elemWrapper)
+  this.navbar.add(leftPad)
+  this.navbar.add(rightPad)
 
   // elements
-  let x = 10
+  let x = xPadding + 10
   let y = 15
   levelHandler.getAll().forEach(function (element) {
     const instance = levelHandler.createInstance(
@@ -124,7 +156,7 @@ ConstructLevelState._loadNavbar = function () {
       },
       this
     )
-    this.navbar.add(instance)
+    this.elemWrapper.add(instance)
     x += instance.width + 20
   }, this)
 
@@ -145,6 +177,21 @@ ConstructLevelState._loadNavbar = function () {
 
   this.navbar.add(bucket)
   this.navbar.add(saveButton)
+
+  // arrows
+  const rightArrow = this.game.add.sprite(WIDTH - 45, 30, 'editor-arrow')
+  rightArrow.inputEnabled = true
+  rightArrow.events.onInputDown.add(function (e) {
+    this.elemWrapper.position.x -= 50
+  }, this)
+  const leftArrow = this.game.add.sprite(45, 30, 'editor-arrow')
+  leftArrow.scale.x = -1
+  leftArrow.inputEnabled = true
+  leftArrow.events.onInputDown.add(function (e) {
+    this.elemWrapper.position.x += 50
+  }, this)
+  this.navbar.add(rightArrow)
+  this.navbar.add(leftArrow)
 
   this.navbar.fixedToCamera = true
 }

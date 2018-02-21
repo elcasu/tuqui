@@ -39,6 +39,7 @@ LoadingState.preload = function () {
   this.game.load.image('bucket', 'img/bucket.png')
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background.png')
+  this.game.load.image('editor-arrow', 'img/editor-arrow.png')
   this.game.load.json('level1', '/api/maps/level1')
   this.game.load.json('level2', '/api/maps/level2')
   this.game.load.json('level3', '/api/maps/level3')
