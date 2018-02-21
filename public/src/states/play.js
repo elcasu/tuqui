@@ -9,7 +9,8 @@ PlayState.init = function (data) {
     a: Phaser.KeyCode.A,
     w: Phaser.KeyCode.W,
     s: Phaser.KeyCode.S,
-    d: Phaser.KeyCode.D
+    d: Phaser.KeyCode.D,
+    e: Phaser.KeyCode.E
   })
   this.starsCount = 0
   this.hasKey = false
@@ -132,6 +133,18 @@ PlayState._isTappingRight = function () {
   return this.game.input.pointer1.isDown && isRight
 }
 
+PlayState._handleAction = function () {
+  const player = levelHandler.get('player').instance
+  const switches = levelHandler.getGroup('switches')
+  // action over a switch
+  this.game.physics.arcade.overlap(player, switches, function (player, sw) {
+    // TODO: door instance should be defined within the level
+    // this way, we could have multiple switches for multiple doors ;-)
+    const slideDoor = levelHandler.getGroup('slideDoors').children[0]
+    sw.action(slideDoor)
+  })
+}
+
 PlayState._handleInput = function () {
   const player = levelHandler.get('player').instance
   if (!player.body) return
@@ -143,6 +156,11 @@ PlayState._handleInput = function () {
   }
   else {
     player.move(0)
+  }
+
+  // action buttons
+  if (this.keys.e.isDown) {
+    this._handleAction()
   }
 
   const stairs = levelHandler.getGroup('stairs')

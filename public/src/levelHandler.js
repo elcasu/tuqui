@@ -246,7 +246,7 @@ const levelHandler = (function () {
             onStopDrag: this._stopDrag
           }, this)
       }
-    },this)
+    }, this)
     this.game.physics.arcade.gravity.y = GRAVITY
   }
 
