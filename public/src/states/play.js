@@ -52,6 +52,10 @@ PlayState._handleCollisions = function () {
     levelHandler.getGroup('platforms')
   )
   this.game.physics.arcade.collide(
+    levelHandler.get('player').instance,
+    levelHandler.getGroup('slideDoors')
+  )
+  this.game.physics.arcade.collide(
     levelHandler.getGroup('enemies'),
     levelHandler.getGroup('platforms')
   )

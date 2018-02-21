@@ -19,10 +19,14 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('grunion', 'img/grunion.png', 168, 132)
   this.game.load.spritesheet('oer', 'img/oer.png', 48, 56)
   this.game.load.spritesheet('squarebot', 'img/squarebot.png', 84, 81)
+  this.game.load.spritesheet('cocon', 'img/cocon.png', 104, 20)
   this.game.load.spritesheet('coin', 'img/coin.png', 30, 30)
+  this.game.load.spritesheet('malignChair', 'img/asiento-malvado.png', 128, 128)
   this.game.load.spritesheet('heart', 'img/heart.png', 48, 36)
   this.game.load.spritesheet('key', 'img/key.png', 30, 62)
   this.game.load.spritesheet('door', 'img/door.png', 84, 108)
+  this.game.load.spritesheet('slideDoor', 'img/door-1.png', 16, 128)
+  this.game.load.spritesheet('doorSwitch', 'img/switch-1.png', 40, 44)
   this.game.load.spritesheet('exitTube', 'img/exit-tube.png', 240, 174)
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')
   this.game.load.image('robot3', 'img/robot4.png')
@@ -37,6 +41,7 @@ LoadingState.preload = function () {
   this.game.load.image('background', 'img/background.png')
   this.game.load.json('level1', '/api/maps/level1')
   this.game.load.json('level2', '/api/maps/level2')
+  this.game.load.json('level3', '/api/maps/level3')
   this.game.load.bitmapFont(
     'carrier_command',
     '../../fonts/carrier_command.png',
