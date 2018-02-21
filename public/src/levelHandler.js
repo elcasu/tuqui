@@ -81,6 +81,11 @@ const levelHandler = (function () {
       lives: this.lives,
       coins: this.coins
     })
+
+    // clear active timers
+    this.timers.forEach(function (t) {
+      clearInterval(t)
+    })
   }
 
   function _levelUp () {

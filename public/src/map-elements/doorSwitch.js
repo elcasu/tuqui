@@ -18,7 +18,7 @@ DoorSwitch.prototype.turnOn = function (door) {
     this.on = true
     this.animations.play('on')
     const _this = this
-    setTimeout(function() {
+    return setTimeout(function() {
       _this.turnOff(door)
     }, this.openTimeout)
   }
@@ -33,5 +33,5 @@ DoorSwitch.prototype.turnOff = function (door) {
 DoorSwitch.prototype.action = function (door) {
   // TODO: `door` should be assigned to the switch
   // on the constructor somehow
-  this.turnOn(door)
+  return this.turnOn(door)
 }

@@ -1,6 +1,7 @@
 const PlayState = {}
 
 PlayState.init = function (data) {
+  this.timers = []
   this.keys = this.game.input.keyboard.addKeys({
     left: Phaser.KeyCode.LEFT,
     right: Phaser.KeyCode.RIGHT,
@@ -134,6 +135,7 @@ PlayState._isTappingRight = function () {
 }
 
 PlayState._handleAction = function () {
+  const _this = this
   const player = levelHandler.get('player').instance
   const switches = levelHandler.getGroup('switches')
   // action over a switch
@@ -141,7 +143,7 @@ PlayState._handleAction = function () {
     // TODO: door instance should be defined within the level
     // this way, we could have multiple switches for multiple doors ;-)
     const slideDoor = levelHandler.getGroup('slideDoors').children[0]
-    sw.action(slideDoor)
+    _this.timers.push(sw.action(slideDoor))
   })
 }
 
