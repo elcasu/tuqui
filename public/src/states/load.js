@@ -28,6 +28,7 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('slideDoor', 'img/door-1.png', 16, 128)
   this.game.load.spritesheet('doorSwitch', 'img/switch-1.png', 40, 44)
   this.game.load.spritesheet('exitTube', 'img/exit-tube.png', 240, 174)
+  this.game.load.spritesheet('gun', 'img/gun.png', 57, 21)
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')
   this.game.load.image('robot3', 'img/robot4.png')
   this.game.load.image('platform', 'img/platform.png')
