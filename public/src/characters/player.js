@@ -2,6 +2,7 @@ function Player (game, x, y) {
   Phaser.Sprite.call(this, game, x, y, 'player')
   if (!game.editing) {
     this.alive = true
+    this.bullets = this.game.add.group()
     this.game.physics.arcade.enable(this)
     // this.body.bounce.y = 0.2
     this.body.gravity.y = 300
@@ -91,6 +92,17 @@ Player.prototype.die = function (cb, thisRef) {
       cb.call(thisRef)
     }, this)
   }, this)
+}
+
+Player.prototype.shoot = function (game) {
+  const xPos = this.scale.x > 0 ? this.position.x + this.body.width : this.position.x
+  const bullet = new Bullet(
+    game,
+    xPos,
+    this.position.y,
+  )
+  this.bullets.add(bullet)
+  bullet.shoot(this.scale.x)
 }
 
 Player.prototype.update = function () {

@@ -7,6 +7,7 @@ PlayState.init = function (data) {
     right: Phaser.KeyCode.RIGHT,
     up: Phaser.KeyCode.UP,
     down: Phaser.KeyCode.DOWN,
+    space: Phaser.KeyCode.SPACEBAR,
     a: Phaser.KeyCode.A,
     w: Phaser.KeyCode.W,
     s: Phaser.KeyCode.S,
@@ -28,6 +29,11 @@ PlayState.create = function () {
   this.background = this.add.tileSprite(0, 0, WIDTH, HEIGHT, 'background')
   this.background.fixedToCamera = true
 
+  this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+  this.game.scale.setUserScale(1, 1);
+  this.game.renderer.renderSession.roundPixels = true;
+  Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
+
   // set up level
   const levelStr = 'level' + this.currentLevel
   let map = this.game.cache.getJSON(levelStr)
@@ -45,6 +51,11 @@ PlayState.create = function () {
   if (this.hasKey) {
     this.door.open()
   }
+
+  // shoot handling
+  this.keys.space.onDown.add(function () {
+    this.player.shoot(this.game)
+  }, this)
 }
 
 PlayState.update = function () {
@@ -86,6 +97,14 @@ PlayState._handleCollisions = function () {
         }
       }, this)
     }, null, this)
+
+  this.game.physics.arcade.overlap(
+    this.player.bullets,
+    levelHandler.getCollideables(this).children,
+    function (b, p) {
+      b.kill()
+    }
+  )
 
   // check overlapings
   this.game.physics.arcade.overlap(this.player, levelHandler.getGroup('items'), function(p, s) {

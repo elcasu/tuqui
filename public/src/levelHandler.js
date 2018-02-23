@@ -5,26 +5,24 @@ const levelHandler = (function () {
     { key: 'player', className: 'Player', unique: true },
     { key: 'heart', className: 'Heart', group: 'items' },
     { key: 'coin', className: 'Coin', group: 'items' },
-    { key: 'gun', className: 'Gun', group: 'items' },
+    { key: 'gun', className: 'Gun', group: 'bullets' },
     { key: 'key', className: 'Key', group: 'items', unique: true },
     { key: 'door', className: 'Door', group: 'doors', unique: true },
-    { key: 'slideDoor', className: 'SlideDoor', group: 'slideDoors', unique: true },
-    { key: 'doorSwitch', className: 'DoorSwitch', group: 'switches', unique: true },
+    { key: 'slideDoor', className: 'SlideDoor', group: 'slideDoors', collideable: true },
+    { key: 'doorSwitch', className: 'DoorSwitch', group: 'switches' },
     { key: 'malignChair', className: 'MalignChair', group: 'items' },
     { key: 'spider', className: 'Spider', group: 'enemies' },
     { key: 'spider2', className: 'Spider2', group: 'enemies' },
     { key: 'crocodile', className: 'Crocodile', group: 'enemies' },
     { key: 'cocon', className: 'Cocon', group: 'enemies' },
+    { key: 'espinosaurio', className: 'Espinosaurio', group: 'enemies' },
     { key: 'oer', className: 'Oer', group: 'enemies' },
     { key: 'invisibleWall', className: 'EnemyWall', group: 'enemyWalls', visible: false },
     { key: 'squarebot', className: 'Squarebot', group: 'enemies' },
     { key: 'lilShip', className: 'LilShip', group: 'enemies' },
-    { key: 'platform', className: 'Platform', group: 'platforms' },
-    { key: 'platformShort', className: 'PlatformShort', group: 'platforms' },
+    { key: 'platform', className: 'Platform', group: 'platforms', collideable: true },
+    { key: 'platformShort', className: 'PlatformShort', group: 'platforms', collideable: true },
     { key: 'grunion', className: 'Grunion', group: 'enemies' },
-    { key: 'invisibleWall', className: 'EnemyWall', group: 'enemyWalls', visible: false },
-    { key: 'platform', className: 'Platform', group: 'platforms' },
-    { key: 'platformShort', className: 'PlatformShort', group: 'platforms' },
     { key: 'stair', className: 'Stair', group: 'stairs' }
   ]
 
@@ -46,6 +44,9 @@ const levelHandler = (function () {
 
   function _createInstance (element, opts) {
     opts = opts || {}
+    if (!this.collideables) {
+      this.collideables = this.game.add.group()
+    }
     const instance = new window[element.className](
       this.game,
       opts.position.x,
@@ -65,6 +66,9 @@ const levelHandler = (function () {
     if (element.group) {
       if (!_groups[element.group]) {
         _groups[element.group] = this.game.add.group()
+        if (element.collideable) {
+          this.collideables.add(_groups[element.group])
+        }
       }
       _groups[element.group].add(instance)
     }
@@ -276,6 +280,11 @@ const levelHandler = (function () {
     // get a group
     getGroup: function (key) {
       return _groups[key]
+    },
+
+    // get collideable objects
+    getCollideables: function (thisRef) {
+      return thisRef.collideables
     },
 
     // create and set corresponding instance of specified element

@@ -10,7 +10,12 @@ LoadingState.preload = function () {
   this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
   this.game.scale.updateLayout(true);
   this.game.add.text(x, y, 'Cargando...', { fill: 'gray' })
+
+  // player related
   this.game.load.spritesheet('player', 'img/player.png', 60, 54)
+  this.game.load.spritesheet('bullet', 'img/bullet.png', 17, 11)
+
+  // enemies
   this.game.load.spritesheet('spider', 'img/spider.png', 72, 72)
   this.game.load.spritesheet('spider2', 'img/spider2.png', 78, 30)
   this.game.load.spritesheet('lilShip', 'img/robot2.png', 48, 40)
@@ -20,6 +25,9 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('oer', 'img/oer.png', 48, 56)
   this.game.load.spritesheet('squarebot', 'img/squarebot.png', 84, 81)
   this.game.load.spritesheet('cocon', 'img/cocon.png', 104, 20)
+  this.game.load.spritesheet('espinosaurio', 'img/espinosaurio.png', 116, 76, 4)
+
+  // items
   this.game.load.spritesheet('coin', 'img/coin.png', 30, 30)
   this.game.load.spritesheet('malignChair', 'img/asiento-malvado.png', 128, 128)
   this.game.load.spritesheet('heart', 'img/heart.png', 48, 36)
@@ -29,6 +37,8 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('doorSwitch', 'img/switch-1.png', 40, 44)
   this.game.load.spritesheet('exitTube', 'img/exit-tube.png', 240, 174)
   this.game.load.spritesheet('gun', 'img/gun.png', 57, 21)
+
+  // static items
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')
   this.game.load.image('robot3', 'img/robot4.png')
   this.game.load.image('platform', 'img/platform.png')
@@ -41,9 +51,14 @@ LoadingState.preload = function () {
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background.png')
   this.game.load.image('editor-arrow', 'img/editor-arrow.png')
+
+  // levels
+  // TODO: this has to be dynamic!
   this.game.load.json('level1', '/api/maps/level1')
   this.game.load.json('level2', '/api/maps/level2')
   this.game.load.json('level3', '/api/maps/level3')
+
+  // fonts
   this.game.load.bitmapFont(
     'carrier_command',
     '../../fonts/carrier_command.png',
