@@ -38,6 +38,9 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('exitTube', 'img/exit-tube.png', 240, 174)
   this.game.load.spritesheet('gun', 'img/gun.png', 57, 21)
 
+  // misc
+  this.game.load.spritesheet('puff', 'img/puff.png', 33, 33)
+
   // static items
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')
   this.game.load.image('robot3', 'img/robot4.png')

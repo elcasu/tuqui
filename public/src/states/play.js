@@ -74,6 +74,10 @@ PlayState._handleCollisions = function () {
   )
   this.game.physics.arcade.collide(
     levelHandler.getGroup('enemies'),
+    levelHandler.getGroup('slideDoors')
+  )
+  this.game.physics.arcade.collide(
+    levelHandler.getGroup('enemies'),
     levelHandler.getGroup('platforms')
   )
   this.game.physics.arcade.collide(
@@ -103,6 +107,15 @@ PlayState._handleCollisions = function () {
     levelHandler.getCollideables(this).children,
     function (b, p) {
       b.kill()
+    }
+  )
+
+  this.game.physics.arcade.overlap(
+    this.player.bullets,
+    levelHandler.getGroup('enemies'),
+    function (b, e) {
+      b.kill()
+      e.hit()
     }
   )
 

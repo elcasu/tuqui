@@ -81,6 +81,7 @@ const levelHandler = (function () {
 
   function _restart () {
     _groups = {}
+    this.collideables = undefined
     this.game.state.restart(true, false, {
       level: this.currentLevel,
       lives: this.lives,
@@ -96,6 +97,7 @@ const levelHandler = (function () {
 
   function _levelUp () {
     _groups = {}
+    this.collideables = undefined
     this.game.state.restart(true, false, {
       level: this.currentLevel + 1,
       lives: this.lives,
