@@ -261,6 +261,16 @@ const levelHandler = (function () {
       }
     }, this)
     this.game.physics.arcade.gravity.y = GRAVITY
+
+    // load "pinches"
+    // for (let i = 0; i < WIDTH; i++) {
+    //   const scullion = new Phaser.Sprite(
+    //     this.game,
+    //     x,
+    //     HEIGHT,
+    //     'pinche'
+    //   )
+    // }
   }
 
   return {

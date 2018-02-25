@@ -54,6 +54,7 @@ LoadingState.preload = function () {
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background.png')
   this.game.load.image('editor-arrow', 'img/editor-arrow.png')
+  this.game.load.image('pinches', 'img/pinches.png')
 
   // levels
   // TODO: this has to be dynamic!
