@@ -262,15 +262,21 @@ const levelHandler = (function () {
     }, this)
     this.game.physics.arcade.gravity.y = GRAVITY
 
-    // load "pinches"
-    // for (let i = 0; i < WIDTH; i++) {
-    //   const scullion = new Phaser.Sprite(
-    //     this.game,
-    //     x,
-    //     HEIGHT,
-    //     'pinche'
-    //   )
-    // }
+    // load spikes
+    let done = false
+    let x = 0
+    let y = HEIGHT - 15   // <-- TODO: instead of "15", get actual height
+    if (!_groups['deadlyObjects']) {
+      _groups['deadlyObjects'] = this.game.add.group()
+    }
+    while (!done) {
+      const spike = new Spike(this.game, x, y)
+      _groups['deadlyObjects'].add(spike)
+      x += spike.width
+      if (x >= WIDTH) {
+        done = true
+      }
+    }
   }
 
   return {

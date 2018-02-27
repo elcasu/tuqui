@@ -87,7 +87,10 @@ PlayState._handleCollisions = function () {
 
   this.game.physics.arcade.overlap(
     levelHandler.get('player').instance,
-    levelHandler.getGroup('enemies'),
+    [
+      levelHandler.getGroup('enemies'),
+      levelHandler.getGroup('deadlyObjects')
+    ],
     function(p, e) {
       p.die(function () {
         // actions after player dies

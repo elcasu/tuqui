@@ -32,7 +32,7 @@ Enemy.prototype._spawnDeath = function () {
   this.visible = false
   const puff = this.game.add.sprite(this.position.x, this.position.y, 'puff')
   puff.anchor.set(0.5, 0.5)
-  puff.animations.add('animate', [0, 1, 2, 3], 12, false)
+  puff.animations.add('animate', [0, 1, 2, 3, 4, 5, 6, 7], 12, false)
   puff.animations.play('animate').onComplete.addOnce(function () {
     this.kill()
     puff.kill()

@@ -39,7 +39,8 @@ LoadingState.preload = function () {
   this.game.load.spritesheet('gun', 'img/gun.png', 57, 21)
 
   // misc
-  this.game.load.spritesheet('puff', 'img/puff.png', 33, 33)
+  this.game.load.spritesheet('puff', 'img/puff.png', 44, 44)
+  this.game.load.spritesheet('spikes', 'img/pinches.png', 93, 15)
 
   // static items
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')
@@ -54,7 +55,6 @@ LoadingState.preload = function () {
   this.game.load.image('editor-save', 'img/editor-save.png')
   this.game.load.image('background', 'img/background.png')
   this.game.load.image('editor-arrow', 'img/editor-arrow.png')
-  this.game.load.image('pinches', 'img/pinches.png')
 
   // levels
   // TODO: this has to be dynamic!
