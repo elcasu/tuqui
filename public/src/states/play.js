@@ -64,9 +64,20 @@ PlayState.update = function () {
 }
 
 PlayState._handleCollisions = function () {
+  const _this = this
   this.game.physics.arcade.collide(
     levelHandler.get('player').instance,
-    levelHandler.getGroup('platforms')
+    [
+      levelHandler.getGroup('platforms'),
+      levelHandler.getGroup('trickyPlatforms')
+    ],
+    function (p, t) {
+      if (t instanceof TrickyPlatform) {
+        t.startBreak(function (timeout) {
+          _this.timers.push(timeout)
+        })
+      }
+    }
   )
   this.game.physics.arcade.collide(
     levelHandler.get('player').instance,
@@ -78,7 +89,10 @@ PlayState._handleCollisions = function () {
   )
   this.game.physics.arcade.collide(
     levelHandler.getGroup('enemies'),
-    levelHandler.getGroup('platforms')
+    [
+      levelHandler.getGroup('platforms'),
+      levelHandler.getGroup('trickyPlatforms')
+    ]
   )
   this.game.physics.arcade.collide(
     levelHandler.getGroup('enemies'),
@@ -104,6 +118,17 @@ PlayState._handleCollisions = function () {
         }
       }, this)
     }, null, this)
+
+  // this.game.physics.arcade.overlap(
+  //   levelHandler.get('player').instance,
+  //   levelHandler.getGroup('trickyPlatforms'),
+  //   function(p, t) {
+  //     console.log('..........................')
+  //     if (!t.isBreaking) {
+  //       t.startBreak()
+  //     }
+  //   }
+  // )
 
   this.game.physics.arcade.overlap(
     this.player.bullets,

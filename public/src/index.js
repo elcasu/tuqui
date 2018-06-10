@@ -1,5 +1,5 @@
 const WIDTH = 10000
-const HEIGHT = 2000
+const HEIGHT = 1000
 const WINDOW_WIDTH = window.outerWidth
 const WINDOW_HEIGHT = window.innerHeight
 const GRAVITY = 200

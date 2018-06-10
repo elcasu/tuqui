@@ -72,6 +72,7 @@ ConstructLevelState.render = function () {
 ConstructLevelState._makeDraggable = function (sprite) {
   sprite.inputEnabled = true
   sprite.input.enableDrag()
+  sprite.input.enableSnap(16, 16, true, true)
 }
 
 ConstructLevelState._cloneAndDrag = function (sprite, pointer) {

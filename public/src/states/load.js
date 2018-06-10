@@ -41,6 +41,7 @@ LoadingState.preload = function () {
   // misc
   this.game.load.spritesheet('puff', 'img/puff.png', 44, 44)
   this.game.load.spritesheet('spikes', 'img/pinches.png', 93, 15)
+  this.game.load.spritesheet('trickyPlatform', 'img/tricky-platform.png', 96, 36)
 
   // static items
   this.game.load.image('invisibleWall', 'img/invisibleWall.png')

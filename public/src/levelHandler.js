@@ -22,6 +22,7 @@ const levelHandler = (function () {
     { key: 'lilShip', className: 'LilShip', group: 'enemies' },
     { key: 'platform', className: 'Platform', group: 'platforms', collideable: true },
     { key: 'platformShort', className: 'PlatformShort', group: 'platforms', collideable: true },
+    { key: 'trickyPlatform', className: 'TrickyPlatform', group: 'trickyPlatforms', collideable: true },
     { key: 'grunion', className: 'Grunion', group: 'enemies' },
     { key: 'stair', className: 'Stair', group: 'stairs' }
   ]
@@ -34,7 +35,8 @@ const levelHandler = (function () {
      'items',
      'enemyWalls',
      'enemies',
-     'platforms'
+     'platforms',
+     'trickyPlatforms'
    ]
 
   function _get (key) {
