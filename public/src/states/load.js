@@ -62,6 +62,7 @@ LoadingState.preload = function () {
   this.game.load.json('level1', '/api/maps/level1')
   this.game.load.json('level2', '/api/maps/level2')
   this.game.load.json('level3', '/api/maps/level3')
+  this.game.load.json('level4', '/api/maps/level4')
 
   // fonts
   this.game.load.bitmapFont(
