@@ -1,5 +1,5 @@
 const api = (function () {
-  const API_BASE_URL = '/api'
+  const API_BASE_URL = '/'
   const _post = function (endpoint, payload) {
     return fetch(endpoint, {
       method: 'POST',
