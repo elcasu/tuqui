@@ -59,10 +59,10 @@ LoadingState.preload = function () {
 
   // levels
   // TODO: this has to be dynamic!
-  this.game.load.json('level1', '/maps/level1')
-  this.game.load.json('level2', '/maps/level2')
-  this.game.load.json('level3', '/maps/level3')
-  this.game.load.json('level4', '/maps/level4')
+  this.game.load.json('level1', '/maps/level1.json')
+  this.game.load.json('level2', '/maps/level2.json')
+  this.game.load.json('level3', '/maps/level3.json')
+  this.game.load.json('level4', '/maps/level4.json')
 
   // fonts
   this.game.load.bitmapFont(
