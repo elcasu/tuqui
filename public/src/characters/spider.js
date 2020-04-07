@@ -12,23 +12,5 @@ function Spider (game, x, y) {
 
 Spider.SPEED = 100;
 
-Spider.prototype = Object.create(Phaser.Sprite.prototype)
+Spider.prototype = Object.create(Enemy.prototype)
 Spider.prototype.constructor = Spider
-
-Spider.prototype.update = function () {
-  if (this.game.editing) return
-  if (this.body.touching.right || this.body.blocked.right) {
-    this.body.velocity.x = -Spider.SPEED
-  }
-  else if (this.body.touching.left || this.body.blocked.left) {
-    this.body.velocity.x = Spider.SPEED
-  }
-}
-
-Spider.prototype.die = function () {
-  if (this.game.editing) return
-  this.body.enable = false
-  this.animations.play('die').onComplete.addOnce(function () {
-    this.kill()
-  }, this)
-}

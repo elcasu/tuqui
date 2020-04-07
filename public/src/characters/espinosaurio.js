@@ -4,7 +4,6 @@ function Espinosaurio (game, x, y) {
     this.animations.add('move', [0, 1, 2, 3], 8, true)
     this.animations.add('die', [0]) // TODO: add die animation
     this.animations.play('move')
-    this.body.velocity.x = -this.speed
   }
 }
 

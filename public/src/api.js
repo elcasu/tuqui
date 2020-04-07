@@ -1,5 +1,5 @@
 const api = (function () {
-  const API_BASE_URL = '/'
+  const API_BASE_URL = ''
   const _post = function (endpoint, payload) {
     return fetch(endpoint, {
       method: 'POST',
@@ -30,7 +30,7 @@ const api = (function () {
     },
 
     getMap: function (name) {
-      return _get(`${API_BASE_URL}/maps/${name}`)
+      return _get(`${API_BASE_URL}/maps/${name}.json`)
     }
   }
 })()
