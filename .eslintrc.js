@@ -1,6 +1,7 @@
 module.exports = {
     "env": {
-      "amd": true
+      "amd": true,
+      "browser": true
     },
     "extends": "eslint:recommended",
     "globals": {
