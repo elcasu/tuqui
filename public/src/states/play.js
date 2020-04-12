@@ -1,12 +1,14 @@
 define([
   'phaser',
   'constants',
-  'levelHandler',
-  'mapElements/ExitTube'
-], function(Phaser, constants, levelHandler, ExitTube) {
+  'modules/level-handler',
+  'map-elements/ExitTube',
+  'modules/game'
+], function(Phaser, constants, levelHandler, ExitTube, Game) {
   const PlayState = {}
   const WIDTH = constants.WIDTH
   const HEIGHT = constants.HEIGHT
+  const game = Game.getInstance()
 
   PlayState.init = function (data) {
     this.timers = []
@@ -62,7 +64,7 @@ define([
 
     // shoot handling
     this.keys.space.onDown.add(function () {
-      this.player.shoot(this.game)
+      this.player.shoot()
     }, this)
   }
 
@@ -171,10 +173,10 @@ define([
       if (door.isOpen) {
         const tubeX = door.position.x + door.width
         const tubeY = door.position.y - 100
-        this.exitTube = new ExitTube(this.game, tubeX, tubeY)
+        this.exitTube = new ExitTube(tubeX, tubeY)
         this.game.add.existing(this.exitTube)
         this.player.destroy()
-        this.exitTube.exit(function (game) {
+        this.exitTube.exit(function () {
           game.camera.fade(0, 500)
           game.camera.onFadeComplete.add(function() {
             levelHandler.levelUp(_this)

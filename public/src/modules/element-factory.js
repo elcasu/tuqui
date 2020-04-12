@@ -1,27 +1,27 @@
 define([
   'characters/Player',
-  'mapElements/Heart',
-  'mapElements/Coin',
-  'mapElements/Gun',
-  'mapElements/Key',
-  'mapElements/Door',
-  'mapElements/SlideDoor',
-  'mapElements/DoorSwitch',
-  'mapElements/malign-chair',
+  'items/Heart',
+  'items/Coin',
+  'items/Gun',
+  'items/Key',
+  'map-elements/Door',
+  'map-elements/SlideDoor',
+  'map-elements/DoorSwitch',
+  'map-elements/malign-chair',
   'characters/Spider',
   'characters/Spider2',
   'characters/Crocodile',
   'characters/Cocon',
   'characters/Espinosaurio',
   'characters/Oer',
-  'mapElements/EnemyWall',
+  'map-elements/EnemyWall',
   'characters/Squarebot',
   'characters/LilShip',
-  'mapElements/Platform',
-  'mapElements/PlatformShort',
-  'mapElements/TrickyPlatform',
+  'map-elements/Platform',
+  'map-elements/PlatformShort',
+  'map-elements/TrickyPlatform',
   'characters/Grunion',
-  'mapElements/Stair'
+  'map-elements/Stair'
 ], function (
   Player,
   Heart,
@@ -76,7 +76,10 @@ define([
   return {
     elements: _elements,
     createInstance: function(element, opts) {
-      return new element.elClass(opts.game, opts.xPos, opts.yPos)
+      if (typeof element === 'string') {
+        element = _elements.find(e => e.key === element)
+      }
+      return new element.elClass(opts.xPos, opts.yPos)
     }
   }
 })

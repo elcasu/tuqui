@@ -1,16 +1,13 @@
-define(['phaser'], function(Phaser) {
-  function Platform (game, x, y, data) {
+define(['map-elements/map-element'], function(MapElement) {
+  function Platform (x, y, data) {
     const image = 'platform'
-    Phaser.Sprite.call(this, game, x, y, image)
+    MapElement.call(this, x, y, image)
     if (data && data.scale) {
       this.scale.setTo(data.scale[0], data.scale[1])
     }
-    this.game.physics.enable(this)
-    this.body.immovable = true
-    this.body.allowGravity = false
   }
 
-  Platform.prototype = Object.create(Phaser.Sprite.prototype)
+  Platform.prototype = Object.create(MapElement.prototype)
   Platform.prototype.constructor = Platform
 
   return Platform

@@ -1,4 +1,4 @@
-define(['modules/browserWindow'], function (browserWindow) {
+define(['modules/browser-window'], function (browserWindow) {
   return {
     WIDTH: 10000,
     HEIGHT: 1000,

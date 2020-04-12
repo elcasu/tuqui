@@ -1,15 +1,15 @@
-define(['phaser'], function(Phaser) {
-  function EnemyWall (game, x, y) {
-    Phaser.Sprite.call(this, game, x, y, 'invisibleWall')
+define(['map-elements/map-element'], function(MapElement) {
+  function EnemyWall (x, y, editing = false) {
+    MapElement.call(this, x, y, 'invisibleWall')
     this.game.physics.enable(this)
     this.body.immovable = true
     this.body.allowGravity = false
-    if (!game.editing) {
+    if (!editing) {
       this.alpha = 0
     }
   }
 
-  EnemyWall.prototype = Object.create(Phaser.Sprite.prototype)
+  EnemyWall.prototype = Object.create(MapElement.prototype)
   EnemyWall.prototype.constructor = EnemyWall
 
   return EnemyWall

@@ -1,10 +1,13 @@
 define([
   'constants',
-  'modules/elementFactory',
-  'mapElements/spike' // <-- TODO: check if this makes sense here
+  'modules/element-factory',
+  'map-elements/spike' // <-- TODO: check if this makes sense here
 ], function(constants, elementFactory, Spike) {
   const WIDTH = constants.WIDTH
   const HEIGHT = constants.HEIGHT
+
+  console.log('factory [desde level handler] ==>', elementFactory)
+
   return (function () {
     let _groups = {}
     let _itemsCollected = []
@@ -39,16 +42,6 @@ define([
         xPos: opts.position.x,
         yPos: opts.position.y
       })
-      if (opts.isClonable) {
-        _makeClonable.call(this, instance, opts)
-      }
-      else {
-        if (this.game.editing) {
-          instance.inputEnabled = true
-          instance.input.enableDrag()
-          instance.events.onDragStop.add(opts.onStopDrag, this)
-        }
-      }
 
       if (element.group) {
         if (!_groups[element.group]) {
@@ -58,8 +51,7 @@ define([
           }
         }
         _groups[element.group].add(instance)
-      }
-      else {
+      } else {
         element.instance = instance
         this.game.add.existing(instance)
       }
@@ -255,7 +247,7 @@ define([
         _groups['deadlyObjects'] = this.game.add.group()
       }
       while (!done) {
-        const spike = new Spike(this.game, x, y)
+        const spike = new Spike(x, y)
         _groups['deadlyObjects'].add(spike)
         x += spike.width
         if (x >= WIDTH) {

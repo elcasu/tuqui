@@ -1,7 +1,13 @@
-define(['phaser', 'mapElements/bullet'], function(Phaser, Bullet) {
-  function Player (game, x, y) {
+define([
+  'phaser',
+  'modules/game',
+  'items/bullet'
+], function(Phaser, Game, Bullet) {
+  function Player (x, y) {
+    const game = Game.getInstance()
     Phaser.Sprite.call(this, game, x, y, 'player')
-    if (!game.editing) {
+    console.log('is playing ->', Game.isPlaying())
+    if (Game.isPlaying()) {
       this.alive = true
       this.bullets = this.game.add.group()
       this.game.physics.arcade.enable(this)
@@ -95,13 +101,9 @@ define(['phaser', 'mapElements/bullet'], function(Phaser, Bullet) {
     }, this)
   }
 
-  Player.prototype.shoot = function (game) {
+  Player.prototype.shoot = function () {
     const xPos = this.scale.x > 0 ? this.position.x + this.body.width : this.position.x
-    const bullet = new Bullet(
-      game,
-      xPos,
-      this.position.y,
-    )
+    const bullet = new Bullet(xPos, this.position.y)
     this.bullets.add(bullet)
     bullet.shoot(this.scale.x)
   }

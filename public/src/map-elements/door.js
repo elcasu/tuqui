@@ -1,15 +1,12 @@
-define(['phaser'], function(Phaser) {
-  function Door (game, x, y) {
-    Phaser.Sprite.call(this, game, x, y, 'door')
-    this.game.physics.enable(this)
-    this.body.immovable = true
-    this.body.allowGravity = false
+define(['map-elements/map-element'], function(MapElement) {
+  function Door (x, y) {
+    MapElement.call(this, x, y, 'door')
     this.isOpen = false
     this.animations.add('closed', [0])
     this.animations.add('open', [1])
   }
 
-  Door.prototype = Object.create(Phaser.Sprite.prototype)
+  Door.prototype = Object.create(MapElement.prototype)
   Door.prototype.constructor = Door
 
   Door.prototype.open = function () {

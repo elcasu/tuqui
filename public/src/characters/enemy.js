@@ -1,7 +1,11 @@
-define(['phaser'], function(Phaser) {
-  function Enemy (game, x, y, name) {
+define([
+  'phaser',
+  'modules/game',
+], function(Phaser, Game) {
+  const game = Game.getInstance()
+  function Enemy (x, y, name) {
     Phaser.Sprite.call(this, game, x, y, name)
-    if (!game.editing) {
+    if (Game.isPlaying()) {
       this.game.physics.enable(this)
       this.body.collideWorldBounds = true
       this.anchor.set(0.5, 0.5)
@@ -18,7 +22,7 @@ define(['phaser'], function(Phaser) {
   Enemy.prototype.constructor = Enemy
 
   Enemy.prototype.update = function () {
-    if (this.game.editing) return
+    if (Game.isEditing()) return
     if (this.body.enable && (this.body.touching.right || this.body.blocked.right)) {
       this.body.velocity.x = -Enemy.SPEED
       this.scale.x *= -1
@@ -50,7 +54,7 @@ define(['phaser'], function(Phaser) {
   }
 
   Enemy.prototype.die = function () {
-    if (this.game.editing) return
+    if (Game.isEditing()) return
     this.body.enable = false
     this._spawnDeath()
   }

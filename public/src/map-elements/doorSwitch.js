@@ -1,16 +1,13 @@
-define(['phaser'], function(Phaser) {
-  function DoorSwitch (game, x, y) {
-    Phaser.Sprite.call(this, game, x, y, 'doorSwitch')
+define(['map-elements/map-element'], function(MapElement) {
+  function DoorSwitch (x, y) {
+    MapElement.call(this, x, y, 'doorSwitch')
     this.openTimeout = 10000   // 10 secs
-    this.game.physics.enable(this)
-    this.body.immovable = true
-    this.body.allowGravity = false
     this.animations.add('on', [1])
     this.animations.add('off', [0])
     this.on = false
   }
 
-  DoorSwitch.prototype = Object.create(Phaser.Sprite.prototype)
+  DoorSwitch.prototype = Object.create(MapElement.prototype)
   DoorSwitch.prototype.constructor = DoorSwitch
 
   DoorSwitch.prototype.turnOn = function (door) {

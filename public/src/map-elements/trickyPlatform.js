@@ -1,17 +1,17 @@
-define(['phaser'], function(Phaser) {
-  function TrickyPlatform (game, x, y) {
-    Phaser.Sprite.call(this, game, x, y, 'trickyPlatform')
+define(['map-elements/map-element'], function(MapElement) {
+  function TrickyPlatform (x, y, editing = false) {
+    MapElement.call(this, x, y, 'trickyPlatform')
     this.game.physics.enable(this)
     this.body.immovable = true
     this.body.allowGravity = false
     this.isBreaking = false
-    if (!game.editing) {
+    if (!editing) {
       this.animations.add('break', [0, 1, 2, 3, 4, 5], 8, false)
       this.animations.add('restore', [3, 2, 1, 0], 8, false)
     }
   }
 
-  TrickyPlatform.prototype = Object.create(Phaser.Sprite.prototype)
+  TrickyPlatform.prototype = Object.create(MapElement.prototype)
   TrickyPlatform.prototype.constructor = TrickyPlatform
 
   TrickyPlatform.prototype.startBreak = function (cb) {
