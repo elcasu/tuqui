@@ -129,7 +129,8 @@ define([
             levelHandler.restart(this)
           }
         }, this)
-      }, null, this)
+      }, null, this
+    )
 
     this.game.physics.arcade.overlap(
       this.player.bullets,
