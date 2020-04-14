@@ -97,10 +97,6 @@ define([
     )
     this.game.physics.arcade.collide(
       levelHandler.getGroup('enemies'),
-      levelHandler.getGroup('slideDoors')
-    )
-    this.game.physics.arcade.collide(
-      levelHandler.getGroup('enemies'),
       [
         levelHandler.getGroup('platforms'),
         levelHandler.getGroup('trickyPlatforms')
